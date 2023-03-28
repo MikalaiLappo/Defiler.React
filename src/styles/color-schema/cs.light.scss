@@ -1,0 +1,36 @@
+body.light {
+    color: #122232;
+    background-color: bisque;
+
+    #sidebar {
+        color: #123232;
+        background-color: beige;
+        .sidebar-header {
+            color: #123232;
+            background-color: beige;
+            .toggle {
+                border-color: #020212 transparent transparent transparent;
+                &:hover, &:focus, &:active {
+                    border-color: #224252 transparent transparent transparent;
+                }
+            }
+        }
+        .sidebar-wrapper {
+            .sidebar-footer {
+                color: #123232;
+                background-color: beige;
+            }
+        }
+    }
+
+    #mainbar {
+        color: #383838;
+        background-color: #dbdabf;
+        .wrapper {
+            footer {
+                color: steelblue;
+                background-color: black;
+            }
+        }
+    }
+}

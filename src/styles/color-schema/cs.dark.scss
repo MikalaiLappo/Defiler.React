@@ -1,0 +1,36 @@
+body.dark {
+    color: #dedede;
+    background-color: #122232;
+
+    #sidebar {
+        color: #b9bbbe;
+        background-color: black;
+        .sidebar-header {
+            color: #b9bbbe;
+            background-color: #123232;
+            .toggle {
+                border-color: #020212 transparent transparent transparent;
+                &:hover, &:focus, &:active {
+                    border-color: #224252 transparent transparent transparent;
+                }
+            }
+        }
+        .sidebar-wrapper {
+            .sidebar-footer {
+                color: #b9bbbe;
+                background-color: #121212;
+            }
+        }
+    }
+
+    #mainbar {
+        color: steelblue;
+        background-color: #122232;
+        .wrapper {
+            footer {
+                color: white;
+                background-color: steelblue;
+            }
+        }
+    }
+}

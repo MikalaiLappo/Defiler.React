@@ -1,0 +1,8 @@
+#!/usr/bin/php
+<?php
+
+system("npm run build");
+
+copy(__DIR__ . '/../index.js', __DIR__ . '/../../defiler.ru/index.js');
+
+echo 'prod updated', PHP_EOL;

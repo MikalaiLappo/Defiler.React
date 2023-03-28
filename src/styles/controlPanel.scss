@@ -1,0 +1,113 @@
+@import 'common';
+@import 'skeleton';
+
+$control-panel-icon-size: 50px;
+$control-button-chat: "/images/icons/chat.png";
+$control-button-defiler: "/images/icons/defiler.png";
+$control-button-refinery: "/images/icons/refinery.png";
+$control-button-twchat: "/images/icons/twchat.png";
+$control-button-tv: "/images/icons/tv.png";
+$zerg-eye: "/images/eye.gif";
+
+.control-panel {
+    overflow: hidden;
+    min-width: $control-panel-min-width;
+    min-height: $control-panel-size;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    @extend .clearfix;
+    .button {
+        float: left;
+        display: block;
+        height: 100%;
+        padding: 4px 4px 4px 4px;
+        min-width: calc(#{$control-panel-size} + 15px);
+        text-align: center;
+        -webkit-transition-duration: 0.3s;
+        transition-duration: 0.3s;
+        -webkit-transition-property: color, background-color, border-color;
+        transition-property: color, background-color, border-color;
+        @extend %clickable;
+        &.active {
+        }
+        &:hover, &:focus, &:active {
+        }
+    }
+    .icon {
+        float: right;
+        width: $control-panel-icon-size;
+        height: $control-panel-icon-size;
+    }
+    .chat {
+        .icon {
+            background: center no-repeat url($control-button-chat);
+        }
+    }
+    .defiler {
+        .icon {
+            //background: center / contain no-repeat url($control-button-defiler);
+            background: center no-repeat url($control-button-defiler);
+        }
+    }
+    .refinery {
+        .icon {
+            //background: center / contain no-repeat url($control-button-refinery);
+            background: center no-repeat url($control-button-refinery);
+        }
+    }
+    .twchat {
+        .icon {
+            //background: center / contain no-repeat url($control-button-twchat);
+            background: center no-repeat url($control-button-twchat);
+        }
+    }
+    .tv {
+        position: relative;
+        .icon {
+            //background: center / contain no-repeat url($control-button-tv);
+            background: center no-repeat url($control-button-tv);
+        }
+        .count {
+            position: absolute;
+            font-size: 14px;
+            left: 38px;
+            top: 25px;
+        }
+    }
+    .big-stream-list-switcher {
+        cursor: pointer;
+        float: right;
+        text-align: right;
+        padding: 10px 75px 10px 10px;
+        height: $control-panel-size;
+        min-width: 200px;
+        font-size: 20px;
+        transition: all 0.3s;
+        position: relative;
+        .eye {
+            position: absolute;
+            top: 0;
+            right: 6px;
+            width: 56px;
+            height: 60px;
+            background: center no-repeat url($zerg-eye);
+        }
+        &:hover {
+        }
+    }
+
+    .chat-icon-on {
+        display: block;
+    }
+
+    .chat-icon-off {
+        display: none;
+    }
+
+    @media (max-width: 850px) {
+        .big-stream-list-switcher {
+            display: none;
+        }
+    }
+}

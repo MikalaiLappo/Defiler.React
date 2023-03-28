@@ -1,0 +1,15 @@
+
+@import 'main';
+//@import 'toader'; // duplicates in the <head>
+@import 'skeleton';
+@import 'elements';
+@import 'controlPanel';
+@import 'stream';
+@import 'content';
+@import 'streamList';
+@import 'chat';
+
+// Colors
+@import "color-schema/cs.default";
+@import "color-schema/cs.dark";
+@import "color-schema/cs.light";

@@ -1,0 +1,37 @@
+$toader-img: "/images/toader.gif"; //128*128
+$toader-size: 160px;
+
+.toader-anchor {
+    z-index: 3;
+    position: fixed;
+    left: calc(50% - #{$toader-size} / 2);
+    top: calc(50% - #{$toader-size} / 2);
+}
+
+.toader {
+    display: inline-block;
+    width: $toader-size;
+    height: $toader-size;
+    background: left 30px top 30px no-repeat url($toader-img);
+}
+
+.toader:after {
+    content: " ";
+    display: block;
+    width: calc(#{$toader-size} - 10px);
+    height: calc(#{$toader-size} - 10px);
+    margin: 8px;
+    border-radius: 50%;
+    border: 12px solid;
+    border-color: #124232 transparent #124232 transparent;
+    animation: toader 1.2s linear infinite;
+}
+
+@keyframes toader {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-360deg);
+    }
+}

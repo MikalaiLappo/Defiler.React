@@ -1,0 +1,75 @@
+{
+  "name": "defiler",
+  "version": "1.0.0",
+  "description": "defiler.ru site app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node_modules/.bin/webpack --mode development --watch",
+    "build": "node_modules/.bin/webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "defiler-v3.react.git"
+  },
+  "keywords": [
+    "defiler"
+  ],
+  "author": "oykd",
+  "license": "MIT",
+  "devDependencies": {
+
+    "bufferutil": "^4.0.1",
+    "utf-8-validate": "^5.0.2",
+    "ws": "^7.2.1",
+
+    "@babel/core": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "@babel/plugin-transform-object-assign": "^7.7.4",
+    "@babel/plugin-proposal-class-properties": "^7.7.4",
+    "@babel/preset-react": "^7.7.4",
+    "@babel/preset-typescript": "^7.7.4",
+
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0",
+    "html-webpack-plugin": "^3.2.0",
+
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.3.2",
+    "style-loader": "^1.0.1",
+    "sass": "1.23.7",
+    "fibers": "4.0.2",
+    "node-sass": "^4.13.0",
+    "sass-loader": "^8.0.0",
+
+    "copy-webpack-plugin": "^5.1.1",
+
+    "typescript": "^3.7.3",
+
+    "es6-promise-promise": "^1.0.0"
+
+  },
+  "dependencies": {
+
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+
+    "react-helmet-async": "^1.0.4",
+    "universal-cookie": "^4.0.2",
+    "react-google-recaptcha": "^2.0.1",
+    "react-perfect-scrollbar": "^1.5.3",
+    "react-iframe": "^1.8.0",
+    "formik": "^2.1.1",
+    "react-router-dom": "^5.1.2",
+    "rc-slider": "^9.7.1",
+
+    "date-fns": "^2.8.1",
+    "yup": "^0.27.0",
+    "@bbob/react": "^2.6.2",
+    "@bbob/preset-react": "^2.6.2",
+
+    "core-js": "^3.4.8",
+    "isomorphic-fetch": "^2.2.1"
+
+  }
+}

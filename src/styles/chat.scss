@@ -1,0 +1,161 @@
+@import 'skeleton';
+
+$chat-footer-height: 120px;
+
+$chat-close-img: "/images/icons/close.png";
+$chat-close-hover-img: "/images/icons/close-hover.png";
+$chat-switch-img: "/images/icons/switch.png";
+$chat-switch-hover-img: "/images/icons/switch-hover.png";
+$chat-popup-img: "/images/icons/popup.png";
+$chat-popup-hover-img: "/images/icons/popup-hover.png";
+$chat-menus-img: "/images/icons/menus.png";
+$chat-menus-hover-img: "/images/icons/menus-hover.png";
+
+.bunker-wrap {
+    height: 500px;
+}
+
+.chat {
+    height: calc(100vh - #{$sidebar-header-height});
+    .chat-header {
+        position: relative;
+        width: 100%;
+        padding: 3px;
+        min-height: 26px;
+        .name {
+            font-family: Verdana, sans-serif;
+            font-size: 12px;
+            max-width: calc(100% - 60px);
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        %icon {
+            float: right;
+            width: 21px;
+            height: 21px;
+            @extend %clickable;
+        }
+        .close {
+            @extend %icon;
+            background: center no-repeat url($chat-close-img);
+            &:hover {
+                background: center no-repeat url($chat-close-hover-img);
+            }
+        }
+        .popup {
+            @extend %icon;
+            background: center no-repeat url($chat-popup-img);
+            &:hover {
+                background: center no-repeat url($chat-popup-hover-img);
+            }
+        }
+        .menus {
+            @extend %icon;
+            background: center no-repeat url($chat-menus-img);
+            &:hover {
+                background: center no-repeat url($chat-menus-hover-img);
+            }
+        }
+        .switch {
+            @extend %icon;
+            background: center no-repeat url($chat-switch-img);
+            &:hover {
+                background: center no-repeat url($chat-switch-hover-img);
+            }
+        }
+    }
+    .chat-messages {
+        height: calc(100% - #{$chat-footer-height});
+        word-wrap: break-word;
+        width: 100%;
+        font-family: verdana, sans-serif;
+        font-size: 11px;
+        text-align: left;
+        position: relative;
+        .has-scrollbar {
+            .chat-message-text {
+                width: calc(100% - 15px);
+            }
+        }
+        .chat-message {
+            width: 100%;
+            font-size: 11px;
+            text-align: left;
+            .chat-nick {
+                //font-weight: bold;
+            }
+            .chat-message-header {
+                height: 25px;
+                padding: 5px 18px 2px 5px;
+                .chat-nick {
+                    cursor: pointer;
+                    font-size: 10px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    max-width: 60%;
+                    float: left;
+                    text-align: left;
+                    text-decoration: none;
+                    font-weight: bold;
+                    a:hover {
+                        text-decoration: underline;
+                    }
+                }
+                .chat-nick-id {
+                    cursor: pointer;
+                    font-size: 10px;
+                    padding-left: 6px;
+                    float: left;
+                    text-decoration: none;
+                    font-weight: bold;
+                    text-align: left;
+                    a:hover {
+                        text-decoration: underline;
+                    }
+                }
+                .chat-nick-hide {
+                    cursor: pointer;
+                    float: left;
+                    text-align: left;
+                    text-decoration: none;
+                    font-weight: bold;
+                    font-size: 10px;
+                    padding: 1px 0 0 6px;
+                    a:hover {
+                        text-decoration: underline;
+                    }
+                }
+                .chat-time {
+                    text-align: right;
+                }
+            }
+            .chat-message-text {
+                padding: 2px 18px 10px 5px;
+                max-height: 390px;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+        }
+    }
+    .chat-footer {
+        height: $chat-footer-height;
+        padding: 5px;
+        input {
+            width: 100%;
+            font-family: verdana, sans-serif;
+            font-size: 11px;
+            padding: 3px;
+            margin: 2px 0 0 0;
+        }
+        div.status {
+            text-align: center;
+            width: 100%;
+            padding: 3px;
+            font-family: verdana, sans-serif;
+            font-size: 11px;
+            margin: 2px 0 2px 0;
+            overflow: hidden;
+            word-wrap: break-word;
+        }
+    }
+}

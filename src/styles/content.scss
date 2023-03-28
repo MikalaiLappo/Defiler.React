@@ -1,0 +1,88 @@
+$repsru-logo: "/images/icons/repsru.png";
+$buran: "https://supply.defiler.ru/img/buran.jpg";//TODO img
+
+.content {
+    padding: 15px;
+    position: relative;
+    @extend .clearfix;
+}
+
+.user-actions {
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.book {
+    word-spacing: 0.5em;
+    max-width: 800px;
+    white-space: pre-wrap;
+    text-align: justify;
+
+    position: relative;
+    float: left;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    p {
+        padding-left: 3em;
+    }
+}
+
+.repsru_content {
+    @extend .clearfix;
+    background: top left no-repeat url($repsru-logo);
+    background-size: 100px auto;
+    padding-top: 40px;
+    /*
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    display: flex;
+    flex-wrap: wrap;
+    */
+    h4 {
+        margin: 0 0 8px 0;
+        font-size: 16px;
+    }
+    div.repsru_news, div.repsru_replays, .mayakovskiy, .buran {
+        float: left;
+        margin-right: 10px;
+    }
+}
+
+.repsru_replays {
+    min-width: 250px;
+    max-width: 650px;
+    .item {
+        font-size: 14px;
+        font-family: "Courier New", Verdana, sans-serif;
+        padding-bottom: 10px;
+    }
+    //flex: 1;
+}
+
+.repsru_news {
+    min-width: 250px;
+    max-width: 650px;
+    .item {
+        font-size: 14px;
+        font-family: "Courier New", Verdana, sans-serif;
+        padding-bottom: 10px;
+    }
+    p {
+        font-style: italic;
+        margin: 0;
+    }
+    //flex: 1;
+}
+
+.buran {
+    background: center center no-repeat url($buran);
+    background-size: contain;
+    min-width: 200px;
+    width: 450px;
+    height: 600px;
+    margin-left: 10px;
+    flex: 1;
+}
