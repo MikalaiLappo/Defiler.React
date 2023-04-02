@@ -3,7 +3,7 @@ import * as Yup from 'yup'
 import {Formik, Field, Form, ErrorMessage, setFieldError} from 'formik'
 import Cookies from 'universal-cookie'
 import {addDays} from 'date-fns'
-import {Redirect} from "react-router-dom"
+import {Navigate} from "react-router-dom"
 //import ru from "date-fns/locale/ru"
 
 import {Link} from "react-router-dom"
@@ -68,7 +68,7 @@ export default function Login(props) {
                 });
         }
 
-    if (props.auth) return (<Redirect push to="/logout"/>)
+    if (props.auth) return (<Navigate push to="/logout"/>)
 
     return (
         <Formik

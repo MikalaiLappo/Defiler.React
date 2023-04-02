@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react"
 import * as Yup from 'yup'
 import {Formik, Field, Form, ErrorMessage, setFieldError} from 'formik'
 import Cookies from 'universal-cookie'
-import {Link, Redirect} from "react-router-dom"
+import {Link, Navigate} from "react-router-dom"
 
 import * as config from "../../config"
 
@@ -75,7 +75,7 @@ export default function Register(props) {
         })
 
 
-    if (props.auth) return (<Redirect push to="/profile"/>)
+    if (props.auth) return (<Navigate push to="/profile"/>)
 
     return (
         <Formik

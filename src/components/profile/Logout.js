@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import {Formik, Field, Form, ErrorMessage, setFieldError} from 'formik'
 import Cookies from 'universal-cookie'
-import {Link, Redirect} from "react-router-dom"
+import {Link, Navigate} from "react-router-dom"
 
 import * as config from "../../config";
 
@@ -35,7 +35,7 @@ export default function Logout(props) {
                 });
         }
 
-    if (!props.auth) return (<Redirect push to="/login"/>)
+    if (!props.auth) return (<Navigate push to="/login"/>)
 
     return (
         <Formik

@@ -22,7 +22,7 @@ testiki
 import React, {Component} from "react"
 import {Helmet, HelmetProvider} from 'react-helmet-async'
 import Cookies from 'universal-cookie'
-import {BrowserRouter as Router, Switch, Route, Link, Redirect} from "react-router-dom"
+import {BrowserRouter as Router, Routes, Route, Link, Redirect} from "react-router-dom"
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
@@ -275,7 +275,7 @@ class App extends Component {
                                 <main>
                                     <HelmetProvider>
 
-                                        <Switch>
+                                        <Routes>
                                             <Route path="/login">
                                                 <Helmet><title>{this.state.data.title + ': login'}</title></Helmet>
                                                 <Login auth={this.state.auth} handler={this.refreshAuth}/>
@@ -319,7 +319,7 @@ class App extends Component {
                                                     data={this.state.data}
                                                 />
                                             </Route>
-                                        </Switch>
+                                        </Routes>
                                     </HelmetProvider>
                                 </main>
                                 <footer>(c) Defiler.ru 1998 forever</footer>

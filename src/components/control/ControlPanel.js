@@ -1,5 +1,5 @@
 import React from "react"
-import {BrowserRouter as Router, Switch, Route, Link, Redirect} from "react-router-dom"
+import {BrowserRouter as Router, Routes, Route, Link, Redirect} from "react-router-dom"
 
 
 // style={{display: props.toggles.sidebar ? 'none' : 'block'}}
@@ -20,7 +20,7 @@ export default function ControlPanel(props) {
                     <div className="icon"></div>
                 </div>
             </Link>
-            <Switch>
+            <Routes>
                 <Route path="/stream/:id">
                     {
                         props.currentStream.source === 'twitch'
@@ -35,7 +35,7 @@ export default function ControlPanel(props) {
                         </div>
                     }
                 </Route>
-            </Switch>
+            </Routes>
             <div
                 className={`button toggle tv ${props.toggles.streamList ? 'active' : null}`}
                 onClick={() => {
