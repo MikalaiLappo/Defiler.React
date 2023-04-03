@@ -6,7 +6,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
     entry: "./src/index.js",
     output: {
-        path: path.join(__dirname, "/"),
+        path: path.join(__dirname, "/dist/"),
         filename: "index.js",
         publicPath: '/'
     },
@@ -23,17 +23,17 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                loader: ["style-loader", "css-loader"]
+                use: ["style-loader", "css-loader"]
             },
             {
                 test: /\.tsx?$/,
-                //loader: ["ts-loader"]
-                loader: ["babel-loader"]
+                use: ["ts-loader"]
+                // use: ["babel-loader"]
             },
         ]
     },
     resolve: {
-        extensions: [".js", ".jsx"],
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
         modules: [
             "node_modules"
         ]
@@ -46,8 +46,10 @@ module.exports = {
             React: 'react',
             Promise: 'es6-promise-promise',
         }),
-        new CopyPlugin([
-            { from: './src/images', to: './images' },
-        ]),
+        /*new CopyPlugin({
+            patterns: [
+                { from: './src/images', to: './images' },
+            ]
+        }),*/
     ],
 };
