@@ -2,12 +2,12 @@
 @import 'skeleton';
 
 $control-panel-icon-size: 50px;
-$control-button-chat: "/images/icons/chat.png";
-$control-button-defiler: "/images/icons/defiler.png";
-$control-button-refinery: "/images/icons/refinery.png";
-$control-button-twchat: "/images/icons/twchat.png";
-$control-button-tv: "/images/icons/tv.png";
-$zerg-eye: "/images/eye.gif";
+$control-button-chat: "../images/icons/chat.png";
+$control-button-defiler: "../images/icons/defiler.png";
+$control-button-refinery: "../images/icons/refinery.png";
+$control-button-twchat: "../images/icons/twchat.png";
+$control-button-tv: "../images/icons/tv.png";
+$zerg-eye: "../images/eye.gif";
 
 .control-panel {
     overflow: hidden;

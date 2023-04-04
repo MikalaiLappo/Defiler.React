@@ -1,11 +1,11 @@
 @import 'common';
 
-$img-mayakovskiy: "/images/mayakovskiy.jpg";
-$img-advisor: "/images/advisor.gif";
-$img-terran60: "/images/race/terran.60.png";
-$img-zerg60: "/images/race/zerg.60.png";
-$img-protoss60: "/images/race/protoss.60.png";
-$img-random60: "/images/race/random.60.png";
+$img-mayakovskiy: "../images/mayakovskiy.jpg";
+$img-advisor: "../images/advisor.gif";
+$img-terran60: "../images/race/terran.60.png";
+$img-zerg60: "../images/race/zerg.60.png";
+$img-protoss60: "../images/race/protoss.60.png";
+$img-random60: "../images/race/random.60.png";
 
 .mayakovskiy {
     background: url($img-mayakovskiy);
