@@ -23,7 +23,7 @@ export default function RepsruReplays(props) {
         repsList = props.data.map((rep, index) => {
             return (
                 <div className="item" key={index}>
-                    <span className="start"> >> </span>
+                    <span className="start"> {'>>'} </span>
                     <a href={"https://reps.ru/replay/" + rep.id} target="_blank">{rep.title}</a><br/>
                 </div>
             )

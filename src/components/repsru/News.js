@@ -11,7 +11,7 @@ export default function RepsruNews(props) {
         newsList = props.data.map((post, index) => {
             return (
                 <div className="item" key={index}>
-                    <span className="start"> >> </span>
+                    <span className="start"> {'>>'} </span>
                     <a href={"https://reps.ru/news/" + post.id} target="_blank">{post.title}</a><br/>
                     <p>
                         <BBCode plugins={[reactPreset()]} options={{ onlyAllowTags: ['i', 'b', 'u', 'url'] }}>
