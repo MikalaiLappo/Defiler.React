@@ -4,7 +4,7 @@ const webpack = require("webpack");
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    entry: "./src/index.js",
+    entry: "./src/index.tsx",
     output: {
         path: path.join(__dirname, "/dist/"),
         filename: "index.js",
