@@ -10,7 +10,8 @@
     "allowJs": true,
     "jsx": "react",
     "esModuleInterop": true,
-    "strict": true
+    "strict": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"]
   },
   "exclude": [
     "./node_modules/**/*"
