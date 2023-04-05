@@ -116,7 +116,7 @@ const App = () => {
     const refreshData = (dataField = 'carrier', command: boolean | string | undefined = false) => {
         //console.log(dataField)
         if (command === false) command = dataField
-        fetch(config.api(command), {
+        fetch(config.api(command.toString()), {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -132,11 +132,7 @@ const App = () => {
                         setData(data)
                     }
                     else
-                        this.setState(prevState => {
-                            let T = prevState.data
-                            T[dataField] = data[dataField]
-                            return {data: T}
-                        })
+                        setData(prevState => ({...prevState, [dataField]: data}))
                 }
                 else {
                     // --- Something wrong with api
@@ -147,6 +143,8 @@ const App = () => {
                 // --- Api is dead
             });
     }
+
+    const sendMessage = () => console.info(`TODO: implement "sendMessage"`)
 
     if (loading) return (<></>)
 
@@ -167,7 +165,7 @@ const App = () => {
                             user={user}
                             messages={data.tavern}
                             refreshData={refreshData}
-                            ws={this.DWSS}
+                            ws={DWSSRef}
                             closeToggle={() => toggle('sidebar')}
                             switchToggle={bunkerChat}
                         />
@@ -200,11 +198,11 @@ const App = () => {
 
             </nav>
             <nav id="stream-list" className={!toggles.streamList ? 'hidden' : ''}
-                 key={this.state.toggles}>
+                 key={toggles.toString()}> {/* TODO: make sure wheather the key needed at all */}
                 <div className="stream-list-wrapper">
                     <div className="cover">&nbsp;</div>
                     <div className="close" onClick={() => {
-                        this.toggle('streamList')
+                        toggle('streamList')
                     }}>&nbsp;</div>
                     <PerfectScrollbar className="container" options={{wheelPropagation: false}}>
                         <StreamList
@@ -221,7 +219,7 @@ const App = () => {
                         <ControlPanel
                             toggles={toggles}
                             toggleHandler={toggle}
-                            streamListCount={data.streams.length}
+                            streamListCount={data.streams?.length} /* TODO: maybe refactor after `data` typings */
                             websocket={DWSSRef}
                             wsmessage={sendMessage}
                             currentStream={currentStream}
