@@ -11,6 +11,8 @@ export const streamOptions = {
         url: 'https://goodgame.ru/player?{channel}'
     }
 }
+    
+export type StreamSource = keyof typeof streamOptions
 
 /** WebSocket Server */
 export const wsServerOptions = {
@@ -41,7 +43,7 @@ export const apiInfo = {
     }
 }
 
-export function api(cmd, key = false) {
+export function api(cmd: string, key?: number | string | boolean) {
     return apiInfo.url + apiInfo.ver + apiInfo.cmd[cmd] + (key ? '/' + key : '')
 }
 
@@ -52,8 +54,9 @@ export const bunkerOrigin = 'https://supply.defiler.ru';
 /** Settings */
 
 export const cookieExpires = 30 //in days
-// MOVED TO `~/.env`
-// export const grecaptchaKey 
+
+// SHOULD BE USED BE SPECIFIED WITHIN `~/.env`
+export const grecaptchaKey = 'grecaptcha'
 
 /** Android Talking*/
 export const messages = [
@@ -82,9 +85,9 @@ export const messages = [
     'Hello, dirty little zergling.',
 ]
 
-let talkTimer = false
+let talkTimer: number = 0
 
-export function talk(i, x, handler, setProcess, process = -1) {
+export function talk(i: number, x, handler, setProcess, process = -1) {
     if (typeof messages[i] === typeof undefined) return false
     if (typeof handler !== 'function' || typeof setProcess !== 'function') return false
     if (process >= 0 && (x === 0 || process !== i)) return false
@@ -95,9 +98,9 @@ export function talk(i, x, handler, setProcess, process = -1) {
     }
     // script
     if (x === 0) setProcess(i)
-    talkTimer = setTimeout(() => {
+    talkTimer = window.setTimeout(() => {
         handler(messages[i][x]['text'])
-        talkTimer = setTimeout(
+        talkTimer = window.setTimeout(
             x < messages[i].length - 1
                 ? () => {
                     talk(i, x + 1, handler, setProcess, i)
@@ -112,5 +115,5 @@ export function talk(i, x, handler, setProcess, process = -1) {
 }
 
 export function abort() {
-    if (talkTimer !== false) clearTimeout(talkTimer)
+    if (talkTimer !== 0) clearTimeout(talkTimer)
 }
