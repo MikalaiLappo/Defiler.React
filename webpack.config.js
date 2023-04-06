@@ -1,7 +1,7 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const webpack = require("webpack");
-const CopyPlugin = require('copy-webpack-plugin');
+/* eslint-env node */
+import path from "path";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import webpack from "webpack"
 
 module.exports = {
     entry: "./src/index.tsx",
