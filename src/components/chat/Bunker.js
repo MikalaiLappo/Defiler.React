@@ -29,32 +29,31 @@ Another option would be to use calc().
 <section style="width: 100%; height: calc(100%);">
 </section>
 */
+import React, { useEffect, useState } from 'react';
 
+import Iframe from 'react-iframe';
 
-import React, {useState, useEffect} from "react"
-import Iframe from 'react-iframe'
-
-import * as config from "../../config"
+import * as config from '../../config';
 
 export default function Bunker(props) {
-    const
-        msgToBunker = function () {
-            const frame = document.getElementById('lisy-chat');
-            frame.contentWindow.postMessage('hello from dev.defiler.ru', 'https://supply.defiler.ru');
-        }
+  const msgToBunker = function () {
+    const frame = document.getElementById('lisy-chat');
+    frame.contentWindow.postMessage(
+      'hello from dev.defiler.ru',
+      'https://supply.defiler.ru',
+    );
+  };
 
-    useEffect(() => {
+  useEffect(() => {}, []);
 
-    }, [])
-
-    return (
-        <Iframe
-            id="lisy-chat"
-            src={config.bunkerChat + '?auth=' + props.auth}
-            width="100%"
-            height="100%"
-            frameBorder={0}
-            scrolling="no"
-        />
-    )
+  return (
+    <Iframe
+      id="lisy-chat"
+      src={config.bunkerChat + '?auth=' + props.auth}
+      width="100%"
+      height="100%"
+      frameBorder={0}
+      scrolling="no"
+    />
+  );
 }

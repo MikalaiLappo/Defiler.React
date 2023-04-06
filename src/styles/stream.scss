@@ -1,153 +1,155 @@
-@import "common";
+@import 'common';
 @import 'skeleton';
 
 $stream-title-height: 30px;
 $stream-description-height: 30px;
 $toader-size: 160px;
-$toader-img: "../images/toader.gif"; //128*128
+$toader-img: '../images/toader.gif'; //128*128
 
 .load {
-    position: relative;
-    background: center center no-repeat url($toader-img);
+  position: relative;
+  background: center center no-repeat url($toader-img);
 }
 
 #stream-browser {
-    width: 100%;
-    margin: 0;
-    @extend .clearfix;
+  width: 100%;
+  margin: 0;
+  @extend .clearfix;
+  .additional-chat {
+    float: left;
+    background-color: black;
+    height: calc(100vh - #{$stream-height-offset});
+    min-height: $stream-place-min-height;
+  }
+  .stream {
+    float: left;
+    background-color: black;
+    min-width: $stream-min-width;
+    height: calc(100vh - #{$stream-height-offset});
+    min-height: $stream-place-min-height;
+    .stream-title {
+      padding: 2px 5px 2px 8px;
+      width: 100%;
+      height: $stream-title-height;
+    }
+    .stream-inner {
+      width: 100%;
+      height: calc(
+        100% - #{$stream-title-height} - #{$stream-description-height}
+      );
+    }
+    .stream-info {
+      padding: 2px 5px 2px 8px;
+      width: 100%;
+      height: $stream-description-height;
+    }
+  }
+  &.show-twchat {
     .additional-chat {
-        float: left;
-        background-color: black;
-        height: calc(100vh - #{$stream-height-offset});
-        min-height: $stream-place-min-height;
+      display: block;
+      width: $additional-chat-width;
     }
     .stream {
-        float: left;
-        background-color: black;
-        min-width: $stream-min-width;
-        height: calc(100vh - #{$stream-height-offset});
-        min-height: $stream-place-min-height;
-        .stream-title {
-            padding: 2px 5px 2px 8px;
-            width: 100%;
-            height: $stream-title-height;
-        }
-        .stream-inner {
-            width: 100%;
-            height: calc(100% - #{$stream-title-height} - #{$stream-description-height});
-        }
-        .stream-info {
-            padding: 2px 5px 2px 8px;
-            width: 100%;
-            height: $stream-description-height;
-        }
+      width: calc(100% - #{$additional-chat-width} - 10px);
     }
-    &.show-twchat {
-        .additional-chat {
-            display: block;
-            width: $additional-chat-width;
-        }
-        .stream {
-            width: calc(100% - #{$additional-chat-width} - 10px);
-        }
+  }
+  &.only-stream {
+    .additional-chat {
+      display: none;
     }
-    &.only-stream {
-        .additional-chat {
-            display: none;
-        }
-        .stream {
-            width: 100%;
-        }
+    .stream {
+      width: 100%;
     }
+  }
 }
 
 @media (min-width: calc(#{$mainbar-min-width} + #{$additional-chat-width})) and (max-width: calc(#{$sidebar-width} + #{$stream-min-width} + #{$additional-chat-width} + 30px)) {
-    #mainbar {
-        &.with-sidebar {
-            #stream-browser {
-                &.show-twchat {
-                    .additional-chat {
-                        width: 100%;
-                        height: $additional-chat-compact-height;
-                    }
-                    .stream {
-                        width: 100%;
-                        height: #{$stream-min-width};
-                    }
-                }
-                &.only-stream {
-                    .stream {
-                        width: 100%;
-                    }
-                }
-            }
+  #mainbar {
+    &.with-sidebar {
+      #stream-browser {
+        &.show-twchat {
+          .additional-chat {
+            width: 100%;
+            height: $additional-chat-compact-height;
+          }
+          .stream {
+            width: 100%;
+            height: #{$stream-min-width};
+          }
         }
-        &.full {
-            #stream-browser {
-                &.show-twchat {
-                    .additional-chat {
-                        width: $additional-chat-width;
-                        height: calc(100vh - #{$stream-height-offset});
-                    }
-                    .stream {
-                        width: calc(100% - #{$additional-chat-width} - 10px);
-                        height: calc(100vh - #{$stream-height-offset});
-                    }
-                }
-                &.only-stream {
-                    .stream {
-                        width: 100%;
-                        height: calc(100vh - #{$stream-height-offset});
-                    }
-                }
-            }
+        &.only-stream {
+          .stream {
+            width: 100%;
+          }
         }
+      }
     }
+    &.full {
+      #stream-browser {
+        &.show-twchat {
+          .additional-chat {
+            width: $additional-chat-width;
+            height: calc(100vh - #{$stream-height-offset});
+          }
+          .stream {
+            width: calc(100% - #{$additional-chat-width} - 10px);
+            height: calc(100vh - #{$stream-height-offset});
+          }
+        }
+        &.only-stream {
+          .stream {
+            width: 100%;
+            height: calc(100vh - #{$stream-height-offset});
+          }
+        }
+      }
+    }
+  }
 }
 
 @media (max-width: calc(#{$mainbar-min-width} + #{$additional-chat-width})) {
-    #mainbar {
-        &.with-sidebar {
-            #stream-browser {
-                &.show-twchat {
-                    .additional-chat {
-                        width: 100%;
-                        height: $additional-chat-compact-height;;
-                    }
-                    .stream {
-                        width: 100%;
-                        height: #{$stream-min-width};
-                    }
-                }
-                &.only-stream {
-                    .stream {
-                        width: 100%;
-                        height: #{$stream-min-width};
-                    }
-                }
-            }
+  #mainbar {
+    &.with-sidebar {
+      #stream-browser {
+        &.show-twchat {
+          .additional-chat {
+            width: 100%;
+            height: $additional-chat-compact-height;
+          }
+          .stream {
+            width: 100%;
+            height: #{$stream-min-width};
+          }
         }
-        &.full {
-            #stream-browser {
-                &.show-twchat {
-                    .additional-chat {
-                        width: 100%;
-                        height: $additional-chat-compact-height;;
-                    }
-                    .stream {
-                        width: 100%;
-                        height: #{$stream-min-width};
-                    }
-                }
-                &.only-stream {
-                    .stream {
-                        width: 100%;
-                        height: #{$stream-min-width};
-                    }
-                }
-            }
+        &.only-stream {
+          .stream {
+            width: 100%;
+            height: #{$stream-min-width};
+          }
         }
+      }
     }
+    &.full {
+      #stream-browser {
+        &.show-twchat {
+          .additional-chat {
+            width: 100%;
+            height: $additional-chat-compact-height;
+          }
+          .stream {
+            width: 100%;
+            height: #{$stream-min-width};
+          }
+        }
+        &.only-stream {
+          .stream {
+            width: 100%;
+            height: #{$stream-min-width};
+          }
+        }
+      }
+    }
+  }
 }
 
 /*

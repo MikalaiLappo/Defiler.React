@@ -1,5 +1,6 @@
-import React from "react"
-import {Link, Redirect} from "react-router-dom"
+import React from 'react';
+
+import { Link, Redirect } from 'react-router-dom';
 
 /*
       "id": "5",
@@ -17,22 +18,24 @@ import {Link, Redirect} from "react-router-dom"
 */
 
 export default function RepsruReplays(props) {
-    if (!props.data) return (<></>);
+  if (!props.data) return <></>;
 
-    const
-        repsList = props.data.map((rep, index) => {
-            return (
-                <div className="item" key={index}>
-                    <span className="start"> {'>>'} </span>
-                    <a href={"https://reps.ru/replay/" + rep.id} target="_blank">{rep.title}</a><br/>
-                </div>
-            )
-        })
-
+  const repsList = props.data.map((rep, index) => {
     return (
-        <div className="repsru_replays">
-            <h4>replays.</h4>
-            {repsList}
-        </div>
-    )
+      <div className="item" key={index}>
+        <span className="start"> {'>>'} </span>
+        <a href={'https://reps.ru/replay/' + rep.id} target="_blank">
+          {rep.title}
+        </a>
+        <br />
+      </div>
+    );
+  });
+
+  return (
+    <div className="repsru_replays">
+      <h4>replays.</h4>
+      {repsList}
+    </div>
+  );
 }
