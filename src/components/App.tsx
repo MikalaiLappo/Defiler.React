@@ -20,18 +20,17 @@ testiki
 */
 import Cookies from 'universal-cookie';
 
-import React, { Component, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
-import * as config from '../config';
-import { streamOptions } from '../config';
-import * as test from '../data';
+import { api, bunkerOrigin } from '../config';
 import '../styles/index.scss';
+import { IStream } from '../types/stream';
 import Bunker from './chat/Bunker';
 import Chat from './chat/Chat';
 import Content from './content/Content';
@@ -59,7 +58,7 @@ const App = () => {
     streamList: window.innerWidth >= 1400,
   });
   const [bunkerChat, setBunkerChat] = useState<boolean>(true);
-  const [currentStream, setCurrentStream] = useState<boolean>(true);
+  const [currentStream, setCurrentStream] = useState<IStream | null>(null);
   const [data, setData] = useState<any>({ title: 'Defi' }); // ANY
   const DWSSRef = useRef<null | typeof DefilerWebSocketServer>(null);
 
@@ -82,7 +81,7 @@ const App = () => {
     window.addEventListener(
       'message',
       (event) => {
-        if (!event.origin.startsWith(config.bunkerOrigin)) return;
+        if (!event.origin.startsWith(bunkerOrigin)) return;
         if (event.data === 'supply-chat-close') toggle('sidebar');
         if (event.data === 'supply-chat-switch') setBunkerChat(false);
       },
@@ -97,7 +96,7 @@ const App = () => {
       authKey = cookies.get('DefilerAuthKey');
     setAuth(typeof authKey !== typeof undefined ? authKey : false);
 
-    fetch(config.api('hello') + '/' + authKey, {
+    fetch(api('hello') + '/' + authKey, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -125,7 +124,7 @@ const App = () => {
   ) => {
     //console.log(dataField)
     if (command === false) command = dataField;
-    fetch(config.api(command.toString()), {
+    fetch(api(command.toString()), {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -154,8 +153,9 @@ const App = () => {
 
   if (loading) return <></>;
 
-  if (document.getElementById('loading-cover')) {
-    document.getElementById('loading-cover')!.outerHTML = '';
+  const loadingCover = document.getElementById('loading-cover');
+  if (loadingCover !== null) {
+    loadingCover.outerHTML = '';
   }
 
   return (

@@ -3,14 +3,20 @@ import { useEffect, useRef } from 'react';
 
 import { Link } from 'react-router-dom';
 
+import { IStream } from '../../types/stream';
+
 type StreamListProps = {
   streams: any[];
-  currentStream: { id: number };
+  currentStream: IStream | null;
   refreshData: (a: string, b: string) => void;
 };
 
-const StreamList = (props: StreamListProps) => {
-  const sortedList = props.streams.sort((a, b) => {
+const StreamList = ({
+  streams,
+  currentStream,
+  refreshData,
+}: StreamListProps) => {
+  const sortedList = streams.sort((a, b) => {
     const typeIndex = (type) => {
       return ['defiler', 'progamer', 'other', 'heresy'].findIndex(
         (x) => x === type,
@@ -35,7 +41,7 @@ const StreamList = (props: StreamListProps) => {
       <Link to={'/stream/' + stream.id} key={index}>
         <div
           className={`stream-block ${
-            props.currentStream.id === stream.id ? 'chosen' : null
+            currentStream && currentStream.id === stream.id ? 'chosen' : null
           }`}
         >
           <div className={`stream-icon ${stream.pic}`} style={styles}>
@@ -67,10 +73,8 @@ const StreamList = (props: StreamListProps) => {
   }
 
   useInterval(() => {
-    props.refreshData('streams', 'online');
+    refreshData('streams', 'online');
   }, 60000);
-
-  useEffect(() => {}, []);
 
   return (
     <>
