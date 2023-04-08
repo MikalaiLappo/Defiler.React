@@ -10,7 +10,14 @@ import { IStream } from '../../types/stream';
 
 type State = 'undetermined' | 'not-found' | 'request' | 'ok';
 
-export default function Stream(props) {
+type StreamProps = {
+  data: { streams: IStream[] };
+  setCurrentStream: (s: IStream | null) => void;
+  title: string;
+  twchat: boolean;
+};
+
+export default function Stream(props: StreamProps) {
   const { id: idParam } = useParams();
   const id = !idParam ? 0 : parseInt(idParam);
 
@@ -25,7 +32,7 @@ export default function Stream(props) {
     if (stream !== null && stream.id === id) return;
     const s =
       stream && props.data.streams.find((stream: IStream) => stream.id === id);
-    if (typeof s !== typeof undefined) {
+    if (s) {
       setStream(s);
       props.setCurrentStream(s);
       return;
@@ -44,7 +51,7 @@ export default function Stream(props) {
       .then((data) => {
         if (!data.success) {
           setStream(null);
-          props.setCurrentStream(false);
+          props.setCurrentStream(null);
         }
         setStream(data.stream);
         props.setCurrentStream(data.stream);
@@ -53,7 +60,7 @@ export default function Stream(props) {
       .catch((e) => {
         console.log(e);
         setState('not-found');
-        props.setCurrentStream(false);
+        props.setCurrentStream(null);
       });
   });
 

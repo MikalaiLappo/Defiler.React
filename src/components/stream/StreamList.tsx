@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { IStream } from '../../types/stream';
 
 type StreamListProps = {
-  streams: any[];
+  streams: IStream[];
   currentStream: IStream | null;
   refreshData: (a: string, b: string) => void;
 };
@@ -29,6 +29,7 @@ const StreamList = ({
 
     return ta - tb;
   });
+
   const streamList = sortedList.map((stream, index) => {
     const styles = stream.pic
       ? {
