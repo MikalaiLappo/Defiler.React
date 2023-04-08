@@ -31,6 +31,7 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import { api, bunkerOrigin } from '../config';
 import '../styles/index.scss';
 import { IStream } from '../types/stream';
+import { IToggles } from '../types/toggles';
 import Bunker from './chat/Bunker';
 import Chat from './chat/Chat';
 import Content from './content/Content';
@@ -48,10 +49,8 @@ import DefilerWebSocketServer from './websocket';
 const App = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [auth, setAuth] = useState<boolean | string>(false);
-  const [user, setUser] = useState<boolean | { name: string; id: number }>(
-    false,
-  ); // ANY
-  const [toggles, setToggles] = useState({
+  const [user, setUser] = useState<{ name: string; id: number } | null>(null);
+  const [toggles, setToggles] = useState<IToggles>({
     sidebar: window.innerWidth >= 800,
     twchat: false,
     refinery: false,

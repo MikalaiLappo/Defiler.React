@@ -1,11 +1,23 @@
 import React from 'react';
 
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import RepsruNews from './../repsru/News';
-import RepsruReplays from './../repsru/Reps';
+import RepsruNews from '../repsru/News';
+import RepsruReplays from '../repsru/Reps';
 
-export default function Content(props) {
+type ContentProps = {
+  user: {
+    id: number;
+    name: string;
+  } | null;
+  data: {
+    // TODO: add reps typings
+    r_news: any[];
+    r_reps: any[];
+  };
+};
+
+export default function Content(props: ContentProps) {
   return (
     <div className="content">
       <div className="user-actions">
@@ -34,7 +46,7 @@ export default function Content(props) {
       </div>
 
       <Link to="/supply/dmbook">
-        <a>Книга "Дефайлер" (автор: Александр Линник dmb2008)</a>
+        <a>Книга &quot;Дефайлер&quot; (автор: Александр Линник dmb2008)</a>
       </Link>
       <br />
       <br />
@@ -51,7 +63,7 @@ export default function Content(props) {
         />
       </a>
       <br />
-      <a href="https://discord.gg/pgKarQn" target="_blank">
+      <a href="https://discord.gg/pgKarQn" target="_blank" rel="noreferrer">
         discord group
       </a>
     </div>
