@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { IStream } from '../../types/stream';
 
-type StreamListProps = {
+type IStreamListProps = {
   streams: IStream[];
   currentStream: IStream | null;
   refreshData: (a: string, b: string) => void;
@@ -15,7 +15,7 @@ const StreamList = ({
   streams,
   currentStream,
   refreshData,
-}: StreamListProps) => {
+}: IStreamListProps) => {
   const sortedList = streams.sort((a, b) => {
     const typeIndex = (type) => {
       return ['defiler', 'progamer', 'other', 'heresy'].findIndex(

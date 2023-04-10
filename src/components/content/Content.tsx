@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import RepsruNews from '../repsru/News';
 import RepsruReplays from '../repsru/Reps';
 
-type ContentProps = {
+type IContentProps = {
   user: {
     id: number;
     name: string;
@@ -17,7 +17,7 @@ type ContentProps = {
   };
 };
 
-export default function Content(props: ContentProps) {
+export default function Content(props: IContentProps) {
   return (
     <div className="content">
       <div className="user-actions">

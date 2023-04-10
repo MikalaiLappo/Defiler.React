@@ -16,7 +16,7 @@ export const streamOptions = {
   },
 };
 
-export type StreamSource = keyof typeof streamOptions;
+export type IStreamSource = keyof typeof streamOptions;
 
 /** API */
 export const apiInfo = {

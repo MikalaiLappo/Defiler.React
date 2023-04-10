@@ -4,14 +4,14 @@ import { Link, Route, Routes } from 'react-router-dom';
 
 import { IStream } from '../../types/stream';
 import { IToggleHandler, IToggles } from '../../types/toggles';
-import { DefilerSocketRef } from '../websocket';
+import { IDefilerSocketRef } from '../websocket';
 
 type ControlPanelProps = {
   toggles: IToggles;
   toggleHandler: IToggleHandler;
   currentStream: IStream | null;
   streamListCount: number;
-  socketRef: DefilerSocketRef;
+  socketRef: IDefilerSocketRef;
   socketSendMessage: (message: string) => void;
 };
 

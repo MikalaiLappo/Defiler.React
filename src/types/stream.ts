@@ -1,11 +1,11 @@
-import { StreamSource } from '../config';
+import { IStreamSource } from '../config';
 
 type IStreamType = 'defiler' | 'progamer' | 'other' | 'heresy';
 
 export interface IStream {
   id: number;
   state: string;
-  source: StreamSource;
+  source: IStreamSource;
   name: string;
   channel: string;
   info: string;

@@ -1,5 +1,5 @@
 /** WS SERVER */
-interface DefilerSocketOptions {
+interface IDefilerSocketOptions {
   serverPath: string;
   shortTimeout: number;
   shortTries: number;
@@ -8,7 +8,7 @@ interface DefilerSocketOptions {
   debug: boolean;
 }
 
-export const DefilerSocketDefaults: DefilerSocketOptions = {
+export const DefilerSocketDefaults: IDefilerSocketOptions = {
   debug: false,
   serverPath: 'wss://defiler.ru:2346',
   shortTimeout: 500,
@@ -17,20 +17,20 @@ export const DefilerSocketDefaults: DefilerSocketOptions = {
   pingPeriod: 5000,
 };
 
-type SocketHandler = (...arg: any) => void;
-type SocketEvent = 'Open' | 'Message' | 'Close' | 'Error' | 'Ping' | 'Pong';
+type ISocketHandler = (...arg: any) => void;
+type ISocketEvent = 'Open' | 'Message' | 'Close' | 'Error' | 'Ping' | 'Pong';
 
-export type DefilerSocketRef = React.MutableRefObject<DefilerSocket | null>;
+export type IDefilerSocketRef = React.MutableRefObject<DefilerSocket | null>;
 
 export default class DefilerSocket {
-  options: DefilerSocketOptions;
+  options: IDefilerSocketOptions;
   handlers: {
-    onOpen: SocketHandler[];
-    onMessage: SocketHandler[];
-    onClose: SocketHandler[];
-    onError: SocketHandler[];
-    onPing: SocketHandler[];
-    onPong: SocketHandler[];
+    onOpen: ISocketHandler[];
+    onMessage: ISocketHandler[];
+    onClose: ISocketHandler[];
+    onError: ISocketHandler[];
+    onPing: ISocketHandler[];
+    onPong: ISocketHandler[];
   };
   stCounter: number;
   ping: string;
@@ -40,7 +40,7 @@ export default class DefilerSocket {
   reconnectPointer?: number;
   pingPongPointer?: number;
 
-  constructor(options: DefilerSocketOptions) {
+  constructor(options: IDefilerSocketOptions) {
     this.options = { ...DefilerSocketDefaults, ...options };
     this.handlers = {
       onOpen: [],
@@ -79,7 +79,7 @@ export default class DefilerSocket {
     return this.connectTime ? Date.now() - this.connectTime : undefined;
   }
 
-  addListener(eventType: SocketEvent, handler: SocketHandler) {
+  addListener(eventType: ISocketEvent, handler: ISocketHandler) {
     if (!this.handlers[`on${eventType}`]) return false;
     this.handlers[`on${eventType}`].push(handler);
     return true;

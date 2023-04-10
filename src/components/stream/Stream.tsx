@@ -5,26 +5,26 @@ import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Iframe from 'react-iframe';
 
-import { StreamSource, api, streamOptions } from '../../config';
+import { IStreamSource, api, streamOptions } from '../../config';
 import { IStream } from '../../types/stream';
 
-type State = 'undetermined' | 'not-found' | 'request' | 'ok';
+type IState = 'undetermined' | 'not-found' | 'request' | 'ok';
 
-type StreamProps = {
+type IStreamProps = {
   data: { streams: IStream[] };
   setCurrentStream: (s: IStream | null) => void;
   title: string;
   twchat: boolean;
 };
 
-export default function Stream(props: StreamProps) {
+export default function Stream(props: IStreamProps) {
   const { id: idParam } = useParams();
   const id = !idParam ? 0 : parseInt(idParam);
 
-  const [state, setState] = useState<State>('undetermined');
+  const [state, setState] = useState<IState>('undetermined');
   const [stream, setStream] = React.useState<IStream | null>(null);
 
-  const getStreamUrl = (source: StreamSource, channel: string) => {
+  const getStreamUrl = (source: IStreamSource, channel: string) => {
     return streamOptions[source].url.replace(/{channel}/gi, channel);
   };
 

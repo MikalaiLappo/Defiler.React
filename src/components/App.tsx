@@ -46,7 +46,7 @@ import Stream from './stream/Stream';
 import StreamList from './stream/StreamList';
 import DefilerSocket, {
   DefilerSocketDefaults,
-  DefilerSocketRef,
+  IDefilerSocketRef,
 } from './websocket';
 
 const App = () => {
@@ -62,7 +62,7 @@ const App = () => {
   const [bunkerChat, setBunkerChat] = useState<boolean>(true);
   const [currentStream, setCurrentStream] = useState<IStream | null>(null);
   const [data, setData] = useState<any>({ title: 'Defi' }); // ANY
-  const defilerSocketRef: DefilerSocketRef = useRef(null);
+  const defilerSocketRef: IDefilerSocketRef = useRef(null);
 
   const toggle = (k: keyof typeof toggles) => {
     setToggles((prevState) => ({ ...prevState, [k]: !prevState[k] }));
