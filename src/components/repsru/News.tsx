@@ -3,16 +3,33 @@ import BBCode from '@bbob/react/es/Component';
 
 import React from 'react';
 
-import { Link, Redirect } from 'react-router-dom';
+interface INews {
+  id: number;
+  title: string;
+  content: string;
+  previewImg: string;
+  previewImgFull: string;
+  previewContent: string;
+  createdAt: Date;
+}
 
-export default function RepsruNews(props) {
-  if (!props.data) return <></>;
+interface INewsRepsonse {
+  news: INews[];
+}
 
-  const newsList = props.data.map((post, index) => {
+type RepsruNewsProps = INewsRepsonse;
+const RepsruNews = ({ news }: RepsruNewsProps) => {
+  if (news.length == 0) return <></>;
+
+  const newsList = news.map((post, index) => {
     return (
       <div className="item" key={index}>
         <span className="start"> {'>>'} </span>
-        <a href={'https://reps.ru/news/' + post.id} target="_blank">
+        <a
+          href={'https://reps.ru/news/' + post.id}
+          target="_blank"
+          rel="noreferrer"
+        >
           {post.title}
         </a>
         <br />
@@ -34,4 +51,6 @@ export default function RepsruNews(props) {
       {newsList}
     </div>
   );
-}
+};
+
+export default RepsruNews;
