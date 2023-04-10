@@ -4,3 +4,5 @@ export interface IToggles {
   refinery: boolean;
   streamList: boolean;
 }
+
+export type IToggleHandler = (t: keyof IToggles) => void;
