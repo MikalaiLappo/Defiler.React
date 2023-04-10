@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 
-import RepsruNews from '../repsru/News';
-import RepsruReplays from '../repsru/Reps';
+import RepsruNews, { INews } from '../repsru/News';
+import RepsruReplays, { IReplay } from '../repsru/Reps';
 
 type IContentProps = {
   user: {
@@ -11,17 +11,16 @@ type IContentProps = {
     name: string;
   } | null;
   data: {
-    // TODO: add reps typings
-    r_news: any[];
-    r_reps: any[];
+    r_news: INews[];
+    r_reps: IReplay[];
   };
 };
 
-export default function Content(props: IContentProps) {
+const Content = ({ user, data }: IContentProps) => {
   return (
     <div className="content">
       <div className="user-actions">
-        {!props.user || props.user.id === -1 ? (
+        {!user || user.id === -1 ? (
           <>
             <Link to="/login">
               <button type="button" className="btn form-control">
@@ -52,8 +51,8 @@ export default function Content(props: IContentProps) {
       <br />
 
       <div className="repsru_content">
-        <RepsruNews data={props.data.r_news} />
-        <RepsruReplays data={props.data.r_reps} />
+        <RepsruNews news={data.r_news} />
+        <RepsruReplays replays={data.r_reps} />
         {/*--<div className="buran"> </div>*/}
       </div>
       <a href="./tourney/">
@@ -68,4 +67,6 @@ export default function Content(props: IContentProps) {
       </a>
     </div>
   );
-}
+};
+
+export default Content;
