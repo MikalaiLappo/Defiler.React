@@ -18,16 +18,6 @@ export const streamOptions = {
 
 export type StreamSource = keyof typeof streamOptions;
 
-/** WebSocket Server */
-export const wsServerOptions = {
-  debug: false,
-  serverPath: 'wss://defiler.ru:2346',
-  shortTimeout: 500,
-  shortTries: 5,
-  longTimeout: 60000,
-  pingPeriod: 5000,
-};
-
 /** API */
 export const apiInfo = {
   url: 'https://api.defiler.ru',

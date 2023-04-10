@@ -1,5 +1,5 @@
 /** WS SERVER */
-interface DefilerWebsocketOptions {
+interface DefilerSocketOptions {
   serverPath: string;
   shortTimeout: number;
   shortTries: number;
@@ -8,20 +8,22 @@ interface DefilerWebsocketOptions {
   debug: boolean;
 }
 
-const defaultOptions = {
-  serverPath: undefined,
+export const DefilerSocketDefaults: DefilerSocketOptions = {
+  debug: false,
+  serverPath: 'wss://defiler.ru:2346',
   shortTimeout: 500,
   shortTries: 5,
   longTimeout: 60000,
   pingPeriod: 5000,
-  debug: false,
 };
 
 type SocketHandler = (...arg: any) => void;
 type SocketEvent = 'Open' | 'Message' | 'Close' | 'Error' | 'Ping' | 'Pong';
 
-export default class DefilerWebSocketServer {
-  options: DefilerWebsocketOptions;
+export type DefilerSocketRef = React.MutableRefObject<DefilerSocket | null>;
+
+export default class DefilerSocket {
+  options: DefilerSocketOptions;
   handlers: {
     onOpen: SocketHandler[];
     onMessage: SocketHandler[];
@@ -38,8 +40,8 @@ export default class DefilerWebSocketServer {
   reconnectPointer?: number;
   pingPongPointer?: number;
 
-  constructor(options: DefilerWebsocketOptions) {
-    this.options = { ...defaultOptions, ...options };
+  constructor(options: DefilerSocketOptions) {
+    this.options = { ...DefilerSocketDefaults, ...options };
     this.handlers = {
       onOpen: [],
       onMessage: [],
