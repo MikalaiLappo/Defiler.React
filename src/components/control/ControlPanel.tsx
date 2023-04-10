@@ -1,24 +1,36 @@
 import React from 'react';
 
-import {
-  Link,
-  Redirect,
-  Route,
-  BrowserRouter as Router,
-  Routes,
-} from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
+
+import { IStream } from '../../types/stream';
+import { IToggleHandler, IToggles } from '../../types/toggles';
+import { DefilerSocketRef } from '../websocket';
+
+type ControlPanelProps = {
+  toggles: IToggles;
+  toggleHandler: IToggleHandler;
+  currentStream: IStream | null;
+  streamListCount: number;
+  socketRef: DefilerSocketRef;
+  socketSendMessage: (message: string) => void;
+};
 
 // style={{display: props.toggles.sidebar ? 'none' : 'block'}}
-export default function ControlPanel(props) {
+const ControlPanel = ({
+  currentStream,
+  streamListCount,
+  toggleHandler,
+  toggles,
+}: ControlPanelProps) => {
   return (
     <div id="control-panel" className="control-panel">
       <div
         className={
           'button toggle chat ' +
-          (props.toggles.sidebar ? 'chat-icon-off' : 'chat-icon-on')
+          (toggles.sidebar ? 'chat-icon-off' : 'chat-icon-on')
         }
         onClick={() => {
-          props.toggleHandler('sidebar');
+          toggleHandler('sidebar');
         }}
       >
         <div className="icon"></div>
@@ -30,13 +42,13 @@ export default function ControlPanel(props) {
       </Link>
       <Routes>
         <Route path="/stream/:id">
-          {props.currentStream.source === 'twitch' && (
+          {currentStream && currentStream.source === 'twitch' && (
             <div
               className={`button toggle twchat ${
-                props.toggles.twchat ? 'active' : null
+                toggles.twchat ? 'active' : null
               }`}
               onClick={() => {
-                props.toggleHandler('twchat');
+                toggleHandler('twchat');
               }}
             >
               <div className="icon"></div>
@@ -45,22 +57,20 @@ export default function ControlPanel(props) {
         </Route>
       </Routes>
       <div
-        className={`button toggle tv ${
-          props.toggles.streamList ? 'active' : null
-        }`}
+        className={`button toggle tv ${toggles.streamList ? 'active' : null}`}
         onClick={() => {
-          props.toggleHandler('streamList');
+          toggleHandler('streamList');
         }}
       >
         <div className="icon"></div>
-        <div className="count">{props.streamListCount}</div>
+        <div className="count">{streamListCount}</div>
       </div>
       <div
         className={`button toggle refinery ${
-          props.toggles.refinery ? 'active' : null
+          toggles.refinery ? 'active' : null
         }`}
         onClick={() => {
-          props.toggleHandler('refinery');
+          toggleHandler('refinery');
         }}
       >
         <div className="icon"></div>
@@ -68,10 +78,10 @@ export default function ControlPanel(props) {
 
       <div
         className={`big-stream-list-switcher ${
-          props.toggles.streamList ? 'displayNone' : null
+          toggles.streamList ? 'displayNone' : null
         }`}
         onClick={() => {
-          props.toggleHandler('streamList');
+          toggleHandler('streamList');
         }}
       >
         <div className="eye">&nbsp;</div>
@@ -79,4 +89,6 @@ export default function ControlPanel(props) {
       </div>
     </div>
   );
-}
+};
+
+export default ControlPanel;

@@ -44,7 +44,10 @@ import Profile from './profile/Profile';
 import Register from './profile/Register';
 import Stream from './stream/Stream';
 import StreamList from './stream/StreamList';
-import DefilerWebSocketServer from './websocket';
+import DefilerSocket, {
+  DefilerSocketDefaults,
+  DefilerSocketRef,
+} from './websocket';
 
 const App = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -59,7 +62,7 @@ const App = () => {
   const [bunkerChat, setBunkerChat] = useState<boolean>(true);
   const [currentStream, setCurrentStream] = useState<IStream | null>(null);
   const [data, setData] = useState<any>({ title: 'Defi' }); // ANY
-  const DWSSRef = useRef<null | typeof DefilerWebSocketServer>(null);
+  const defilerSocketRef: DefilerSocketRef = useRef(null);
 
   const toggle = (k: keyof typeof toggles) => {
     setToggles((prevState) => ({ ...prevState, [k]: !prevState[k] }));
@@ -87,7 +90,12 @@ const App = () => {
       false,
     );
 
-    return () => window.removeEventListener('resize', updateDimensions);
+    defilerSocketRef.current = new DefilerSocket(DefilerSocketDefaults);
+
+    return () => {
+      // TODO: handle websocket
+      window.removeEventListener('resize', updateDimensions);
+    };
   }, []);
 
   const refreshAuth = () => {
@@ -170,7 +178,7 @@ const App = () => {
                 user={user}
                 messages={data.tavern}
                 refreshData={refreshData}
-                ws={DWSSRef}
+                ws={defilerSocketRef}
                 closeToggle={() => toggle('sidebar')}
                 switchToggle={bunkerChat}
               />
@@ -242,8 +250,8 @@ const App = () => {
                   streamListCount={
                     data.streams?.length
                   } /* TODO: maybe refactor after `data` typings */
-                  websocket={DWSSRef}
-                  wsmessage={sendMessage}
+                  socketRef={defilerSocketRef}
+                  socketSendMessage={sendMessage}
                   currentStream={currentStream}
                 />
               </header>
