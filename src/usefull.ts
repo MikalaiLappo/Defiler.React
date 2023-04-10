@@ -21,9 +21,9 @@ async function loadGames() {
     });
     const games = await response.json();
     return games;
-  } catch (error) {
+  } catch (error: unknown) {
     // Timeouts if the request takes
     // longer than 6 seconds
-    console.log(error.name === 'AbortError');
+    console.log((error as DOMException).name === 'AbortError');
   }
 }
