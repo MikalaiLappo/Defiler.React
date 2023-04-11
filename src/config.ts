@@ -14,7 +14,7 @@ export const streamOptions = {
   goodgame: {
     url: 'https://goodgame.ru/player?{channel}',
   },
-};
+} as const;
 
 export type IStreamSource = keyof typeof streamOptions;
 
@@ -35,7 +35,7 @@ export const apiInfo = {
     tavern: '/tavern/get',
     supply: '/supply/data/{key}',
   },
-};
+} as const;
 
 export function api(cmd: string, key?: number | string | boolean) {
   return apiInfo.url + apiInfo.ver + apiInfo.cmd[cmd] + (key ? '/' + key : '');
@@ -77,7 +77,7 @@ export const messages = [
     },
   ],
   'Hello, dirty little zergling.',
-];
+] as const;
 
 let talkTimer = 0;
 
