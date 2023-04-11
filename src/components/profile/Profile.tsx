@@ -1,4 +1,4 @@
-import { ErrorMessage, Field, Form, Formik, setFieldError } from 'formik';
+import { Form, Formik } from 'formik';
 import Cookies from 'universal-cookie';
 import * as Yup from 'yup';
 
@@ -7,67 +7,73 @@ import React, { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 
 import * as config from '../../config';
-import InputRegion from './../elements/InputRegion';
-import RaceSelector from './../elements/RaceSelector';
+import InputRegion from '../elements/InputRegion';
+import RaceSelector from '../elements/RaceSelector';
 
-export default function Profile(props) {
-  const [busy, setBusy] = React.useState(true),
-    [talking, setTalking] = React.useState(-1),
-    [message, setMessage] = React.useState(config.messages[5]),
-    formInitialValues = {
-      aka: '',
-      email: '',
-      race: 'none',
-    },
-    [profileValues, setProfileValues] = React.useState(formInitialValues),
-    formSchema = Yup.object().shape({
-      aka: Yup.string().min(3, '3 symbols min').max(64, '64 symbols max'),
-      email: Yup.string().email('Wrong email').max(64, '64 symbols max'),
-      race: Yup.string().oneOf(
-        ['zerg', 'terran', 'protoss', 'random', 'none'],
-        'SC:BW race',
-      ),
-    }),
-    talk = (i) => {
-      config.talk(i, 0, setMessage, setTalking, talking);
-    },
-    goUpdate = (formValues) => {
-      config.abort();
-      setMessage('...');
-      setBusy(true);
-      formValues.auth = props.auth;
-      fetch(config.api('save'), {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formValues),
+const formInitialValues = {
+  aka: '',
+  email: '',
+  race: 'none',
+};
+
+const formSchema = Yup.object().shape({
+  aka: Yup.string().min(3, '3 symbols min').max(64, '64 symbols max'),
+  email: Yup.string().email('Wrong email').max(64, '64 symbols max'),
+  race: Yup.string().oneOf(
+    ['zerg', 'terran', 'protoss', 'random', 'none'],
+    'SC:BW race',
+  ),
+});
+
+type IProfileProps = { auth: string | null; handler: () => void };
+const Profile = (props: IProfileProps) => {
+  const [busy, setBusy] = useState(true);
+  const [talking, setTalking] = useState(-1);
+  const [message, setMessage] = useState<string>(config.messages[5]);
+  const [profileValues, setProfileValues] = useState(formInitialValues);
+
+  const talk = (i) => {
+    config.talk(i, 0, setMessage, setTalking, talking);
+  };
+
+  const goUpdate = (formValues) => {
+    config.abort();
+    setMessage('...');
+    setBusy(true);
+    formValues.auth = props.auth;
+    fetch(config.api('save'), {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formValues),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setBusy(false);
+        if (data.success) {
+          talk(10);
+          props.handler();
+        } else {
+          setMessage(data.message);
+        }
       })
-        .then((response) => response.json())
-        .then((data) => {
-          setBusy(false);
-          if (data.success) {
-            talk(10);
-            props.handler();
-          } else {
-            setMessage(data.message);
-          }
-        })
-        .catch((e) => {
-          setBusy(false);
-          setMessage(config.messages[2]);
-          console.log(e);
-        });
-    },
-    goLogout = () => {
-      setBusy(true);
-      const cookies = new Cookies();
-      setMessage(config.messages[3]);
-      cookies.remove('DefilerAuthKey');
-      setBusy(false);
-      props.handler();
-    };
+      .catch((e) => {
+        setBusy(false);
+        setMessage(config.messages[2]);
+        console.log(e);
+      });
+  };
+
+  const goLogout = () => {
+    setBusy(true);
+    const cookies = new Cookies();
+    setMessage(config.messages[3]);
+    cookies.remove('DefilerAuthKey');
+    setBusy(false);
+    props.handler();
+  };
 
   // ComponentWillUnmount
   useEffect(() => {
@@ -100,7 +106,7 @@ export default function Profile(props) {
     return () => config.abort();
   }, []);
 
-  if (!props.auth) return <Navigate push to="/login" />;
+  if (!props.auth) return <Navigate to="/login" />;
 
   return (
     <Formik
@@ -197,4 +203,6 @@ export default function Profile(props) {
       )}
     </Formik>
   );
-}
+};
+
+export default Profile;

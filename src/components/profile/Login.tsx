@@ -1,5 +1,5 @@
 import { addDays } from 'date-fns';
-import { ErrorMessage, Field, Form, Formik, setFieldError } from 'formik';
+import { Form, Formik } from 'formik';
 import Cookies from 'universal-cookie';
 import * as Yup from 'yup';
 
@@ -9,25 +9,28 @@ import { Navigate } from 'react-router-dom';
 //import ru from "date-fns/locale/ru"
 import { Link } from 'react-router-dom';
 
-import * as config from './../../config';
-import InputRegion from './../elements/InputRegion';
+import * as config from '../../config';
+import InputRegion from '../elements/InputRegion';
 
-export default function Login(props) {
-  const [busy, setBusy] = React.useState(false),
-    [message, setMessage] = React.useState(config.messages[1]),
-    formInitialValues = {
-      login: '',
-      password: '',
-      rememberMe: false,
-    },
-    formSchema = Yup.object().shape({
-      login: Yup.string().required('Login required').max(64, '64 symbols max'),
-      password: Yup.string()
-        .required('Password required')
-        .min(4, '4 symbols min')
-        .max(64, '64 symbols max'),
-      rememberMe: Yup.boolean(),
-    });
+const formInitialValues = {
+  login: '',
+  password: '',
+  rememberMe: false,
+};
+
+const formSchema = Yup.object().shape({
+  login: Yup.string().required('Login required').max(64, '64 symbols max'),
+  password: Yup.string()
+    .required('Password required')
+    .min(4, '4 symbols min')
+    .max(64, '64 symbols max'),
+  rememberMe: Yup.boolean(),
+});
+
+type ILoginProps = { auth: string | null; handler: () => void };
+const Login = (props: ILoginProps) => {
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState<string>(config.messages[1]);
 
   const goLogin = (formValues, e) => {
     const cookies = new Cookies(),
@@ -65,7 +68,7 @@ export default function Login(props) {
       });
   };
 
-  if (props.auth) return <Navigate push to="/logout" />;
+  if (props.auth) return <Navigate to="/logout" />;
 
   return (
     <Formik
@@ -115,4 +118,6 @@ export default function Login(props) {
       )}
     </Formik>
   );
-}
+};
+
+export default Login;
