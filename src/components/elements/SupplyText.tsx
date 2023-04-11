@@ -4,13 +4,12 @@ import BBCode from '@bbob/react/es/Component';
 import React, { useEffect, useState } from 'react';
 
 import { useParams } from 'react-router-dom';
-import { Link, Redirect } from 'react-router-dom';
 
 import * as config from '../../config';
 
-export default function SupplyText(props) {
-  const { id } = useParams(),
-    [text, setText] = React.useState('...');
+export default function SupplyText() {
+  const { idParam } = useParams();
+  const [text, setText] = useState('...');
 
   const preset = reactPreset.extend((tags, options) => ({
     ...tags,
@@ -24,7 +23,12 @@ export default function SupplyText(props) {
   }));
 
   useEffect(() => {
-    fetch(config.api('supply').replace(/{key}/gi, id), {
+    if (!idParam) {
+      console.warn('`id` param unspecified');
+      return;
+    }
+
+    fetch(config.api('supply').replace(/{key}/gi, idParam), {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -34,8 +38,8 @@ export default function SupplyText(props) {
       .then((response) => response.json())
       .then((data) => {
         if (typeof data.data === 'undefined') return;
-        let p = data.data.split('\n'),
-          r = '';
+        const p = data.data.split('\n');
+        let r = '';
         p.forEach((el) => {
           el = el.trim();
           r += '\n';
