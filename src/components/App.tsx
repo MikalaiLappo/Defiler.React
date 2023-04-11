@@ -51,7 +51,7 @@ import DefilerSocket, {
 
 const App = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [auth, setAuth] = useState<boolean | string>(false);
+  const [auth, setAuth] = useState<string | null>(null);
   const [user, setUser] = useState<{ name: string; id: number } | null>(null);
   const [toggles, setToggles] = useState<IToggles>({
     sidebar: window.innerWidth >= 800,
@@ -61,7 +61,7 @@ const App = () => {
   });
   const [bunkerChat, setBunkerChat] = useState<boolean>(true);
   const [currentStream, setCurrentStream] = useState<IStream | null>(null);
-  const [data, setData] = useState<any>({ title: 'Defi' }); // ANY
+  const [data, setData] = useState<any>({ title: 'Defi' }); // TODO: get rid of `any`
   const defilerSocketRef: IDefilerSocketRef = useRef(null);
 
   const toggle = (k: keyof typeof toggles) => {
@@ -99,9 +99,9 @@ const App = () => {
   }, []);
 
   const refreshAuth = () => {
-    const cookies = new Cookies(),
-      authKey = cookies.get('DefilerAuthKey');
-    setAuth(typeof authKey !== typeof undefined ? authKey : false);
+    const cookies = new Cookies();
+    const authKey = cookies.get('DefilerAuthKey') as string | undefined; // TODO: maybe use a cookie lib with better TS
+    setAuth(authKey ?? null);
 
     fetch(api('hello') + '/' + authKey, {
       method: 'GET',
@@ -117,7 +117,7 @@ const App = () => {
         setUser({ id: data.id, name: data.name });
         if (data.id <= 0) {
           cookies.remove('DefilerAuthKey');
-          setAuth(false);
+          setAuth(null);
         }
       })
       .catch((e) => {
