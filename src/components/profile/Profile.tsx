@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 
 import * as config from '../../config';
+import { IRace } from '../../types/profile';
 import InputRegion from '../elements/InputRegion';
 import RaceSelector from '../elements/RaceSelector';
 
@@ -185,10 +186,10 @@ const Profile = (props: IProfileProps) => {
           <RaceSelector
             id="race"
             prepend="race:"
-            name="race"
-            value={values.race || ''}
+            field="race"
+            racePersisted={values.race as IRace}
             setFieldValue={setFieldValue}
-            isError={errors.race && touched.race}
+            isError={!!(errors.race && touched.race)}
           />
           <div className="divider" />
           <button
