@@ -88,7 +88,7 @@ const Login = (props: ILoginProps) => {
             name="login"
             type="text"
             value={values.login || ''}
-            isError={errors.login && touched.login}
+            isError={!!(errors.login && touched.login)}
           />
           <InputRegion
             id="password"
@@ -96,7 +96,7 @@ const Login = (props: ILoginProps) => {
             name="password"
             type="password"
             value={values.password || ''}
-            isError={errors.password && touched.password}
+            isError={!!(errors.password && touched.password)}
           />
           <InputRegion
             id="rememberMe"
@@ -104,7 +104,7 @@ const Login = (props: ILoginProps) => {
             name="rememberMe"
             type="checkbox"
             checked={values.rememberMe || false}
-            isError={errors.rememberMe && touched.rememberMe}
+            isError={!!(errors.rememberMe && touched.rememberMe)}
           />
           <button type="submit" disabled={busy} className="btn form-control">
             Login

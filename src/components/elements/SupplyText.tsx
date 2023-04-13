@@ -1,13 +1,13 @@
 import reactPreset from '@bbob/preset-react/es';
 import BBCode from '@bbob/react/es/Component';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useParams } from 'react-router-dom';
 
 import * as config from '../../config';
 
-export default function SupplyText() {
+const SupplyText = () => {
   const { idParam } = useParams();
   const [text, setText] = useState('...');
 
@@ -66,4 +66,6 @@ export default function SupplyText() {
       </div>
     </div>
   );
-}
+};
+
+export default SupplyText;

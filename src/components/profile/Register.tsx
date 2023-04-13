@@ -99,7 +99,7 @@ const Register = (props: IRegisterProps) => {
             name="login"
             type="text"
             value={values.login || ''}
-            isError={errors.login && touched.login}
+            isError={!!(errors.login && touched.login)}
           />
           <InputRegion
             id="password"
@@ -107,7 +107,7 @@ const Register = (props: IRegisterProps) => {
             name="password"
             type="password"
             value={values.password || ''}
-            isError={errors.password && touched.password}
+            isError={!!(errors.password && touched.password)}
           />
           <InputRegion
             id="email"
@@ -115,7 +115,7 @@ const Register = (props: IRegisterProps) => {
             name="email"
             type="email"
             value={values.email || ''}
-            isError={errors.email && touched.email}
+            isError={!!(errors.email && touched.email)}
           />
           <RaceSelector
             id="race"

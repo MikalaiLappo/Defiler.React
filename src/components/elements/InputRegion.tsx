@@ -1,24 +1,35 @@
-import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { ErrorMessage, Field } from 'formik';
 
-import React from 'react';
-
-export default function InputRegion(props) {
+type IInputRegionProps = {
+  id: string;
+  type: string;
+  value?: string;
+  prepend?: string;
+  inputClass?: string;
+  isError?: boolean;
+  inputErrorClass?: string;
+  feedbackClass?: string;
+  errorMsg?: string;
+  name: string;
+  checked?: boolean;
+};
+const InputRegion = (props: IInputRegionProps) => {
   const containerClasses = ['input-container']
-      .concat(props.prepend ? 'prepend-container' : null)
-      .join(' ')
-      .trim(),
-    fieldClasses = [props.inputClass ? props.inputClass : 'form-control']
+    .concat(props.prepend ? 'prepend-container' : '')
+    .join(' ')
+    .trim();
+  const fieldClasses = [props.inputClass ?? 'form-control']
       .concat(
         props.isError
           ? props.inputErrorClass
             ? props.inputErrorClass
             : 'is-invalid'
-          : null,
+          : '',
       )
       .join(' ')
       .trim(),
     feedbackClasses = ['feedback']
-      .concat(props.feedbackClass ? props.feedbackClass : null)
+      .concat(props.feedbackClass ?? '')
       .join(' ')
       .trim(),
     ErrorComponent = props.errorMsg ? (
@@ -71,4 +82,6 @@ export default function InputRegion(props) {
       {ErrorComponent}
     </div>
   );
-}
+};
+
+export default InputRegion;

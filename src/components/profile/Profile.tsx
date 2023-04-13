@@ -173,7 +173,7 @@ const Profile = (props: IProfileProps) => {
             name="aka"
             type="text"
             value={values.aka || ''}
-            isError={errors.aka && touched.aka}
+            isError={!!(errors.aka && touched.aka)}
           />
           <InputRegion
             id="email"
@@ -181,7 +181,7 @@ const Profile = (props: IProfileProps) => {
             name="email"
             type="email"
             value={values.email || ''}
-            isError={errors.email && touched.email}
+            isError={!!(errors.email && touched.email)}
           />
           <RaceSelector
             id="race"
