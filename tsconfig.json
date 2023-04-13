@@ -8,12 +8,11 @@
     "removeComments": true,
     "sourceMap": true,
     "allowJs": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "esModuleInterop": true,
     "strict": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"]
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "outDir": "./dist"
   },
-  "exclude": [
-    "./node_modules/**/*"
-  ]
+  "exclude": ["./node_modules/**/*", "./dist"]
 }
