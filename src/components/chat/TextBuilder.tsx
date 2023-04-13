@@ -1,7 +1,3 @@
-import React, { useState } from 'react';
-
-import { Link } from 'react-router-dom';
-
 /*
 import React from "react";
 import { render } from "react-dom";
@@ -31,18 +27,32 @@ render(<App />, rootElement);
 
  */
 
-export default function TextBuilder(props) {
-  function insertPart(parts, x, data, before, after) {
-    let newParts = [];
+type IPart = {
+  tag: string;
+  class: string;
+  src: string;
+  text: string;
+  handler?: () => void;
+};
+type ITextBuilderProps = {
+  handler: () => void;
+  text: string;
+  insertPic: () => void;
+  insertName: () => void;
+};
+export default function TextBuilder(props: ITextBuilderProps) {
+  function insertPart(parts: IPart[], x, data, before: string, after: string) {
+    const newParts: IPart[] = [];
     for (let j = 0; j < x; j++) newParts.push(parts[j]);
-    if (before !== '')
+    if (before !== '') {
       newParts.push({
         tag: '',
         class: '',
         src: '',
         text: before,
-        handler: false,
+        handler: undefined,
       });
+    }
     newParts.push(data);
     if (after !== '')
       newParts.push({
@@ -50,7 +60,6 @@ export default function TextBuilder(props) {
         class: '',
         src: '',
         text: after,
-        handler: false,
       });
     for (let j = x + 1; j < parts.length; j++) newParts.push(parts[j]);
     return newParts;
@@ -74,17 +83,16 @@ export default function TextBuilder(props) {
       },
     ];
 
-  let parts = [
-      {
-        tag: '',
-        class: '',
-        src: '',
-        text: props.text,
-        handler: false,
-      },
-    ],
-    x = 0,
-    e = 0;
+  let parts: IPart[] = [
+    {
+      tag: '',
+      class: '',
+      src: '',
+      text: props.text,
+    },
+  ];
+  let x = 0;
+  let e = 0;
 
   // pics
   let picCount = 0;
@@ -152,7 +160,7 @@ export default function TextBuilder(props) {
     }
     x++;
   }
-  let building = parts.map((part, index) => {
+  const building = parts.map((part, index) => {
     switch (part.tag) {
       case 'img':
         return (
@@ -165,7 +173,7 @@ export default function TextBuilder(props) {
           />
         );
       case 'span':
-        return part.handler !== false ? (
+        return part.handler ? (
           <a key={index} className={part.class} onClick={part.handler}>
             {part.text}
           </a>
