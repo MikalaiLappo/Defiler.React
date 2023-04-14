@@ -2,11 +2,31 @@ import React, { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import TextBuilder from './TextBuilder';
+import TextBuilder from './TextBuilder.js';
 
-export default function Message(props) {
+/**
+ * TODO: decouple `user`, `message` types
+ */
+type IMessageProps = {
+  user: {
+    id: number;
+    name: string;
+  };
+  message: {
+    text: string;
+    name: string;
+    author: number;
+    time: Date;
+  };
+  hideList: number[];
+  // TODO: make sure where author callback argument is required
+  addToHideList: (author: number) => void;
+  insertName: () => void;
+  insertPic: () => void;
+};
+const Message = (props: IMessageProps) => {
   const getTime = (time) => {
-      let t = time.split(/[- :]/);
+      const t = time.split(/[- :]/);
       return t[3] + ':' + t[4];
     },
     p = props.message.text.indexOf(props.user.name),
@@ -19,16 +39,14 @@ export default function Message(props) {
         .concat(
           messageToUser && props.user.name !== props.message.name
             ? 'to-user'
-            : null,
+            : '',
         )
         .concat(
-          props.hideList.includes(props.message.author) ? 'displayNone' : null,
+          props.hideList.includes(props.message.author) ? 'displayNone' : '',
         )
         .join(' ')
         .trim(),
     );
-
-  useEffect(() => {}, []);
 
   return (
     <div className={messageClasses}>
@@ -68,4 +86,6 @@ export default function Message(props) {
       </div>
     </div>
   );
-}
+};
+
+export default Message;

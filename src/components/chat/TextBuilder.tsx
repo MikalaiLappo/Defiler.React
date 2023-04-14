@@ -35,7 +35,7 @@ type IPart = {
   handler?: () => void;
 };
 type ITextBuilderProps = {
-  handler: () => void;
+  handler?: () => void;
   text: string;
   insertPic: () => void;
   insertName: () => void;
