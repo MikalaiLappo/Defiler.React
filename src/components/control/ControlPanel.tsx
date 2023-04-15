@@ -6,7 +6,7 @@ import { IStream } from '../../types/stream';
 import { IToggleHandler, IToggles } from '../../types/toggles';
 import { IDefilerSocketRef } from '../websocket';
 
-type ControlPanelProps = {
+type IControlPanelProps = {
   toggles: IToggles;
   toggleHandler: IToggleHandler;
   currentStream: IStream | null;
@@ -21,7 +21,7 @@ const ControlPanel = ({
   streamListCount,
   toggleHandler,
   toggles,
-}: ControlPanelProps) => {
+}: IControlPanelProps) => {
   return (
     <div id="control-panel" className="control-panel">
       <div

@@ -2,28 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
+import { IMessageProps } from '../../types/chat.js';
 import TextBuilder from './TextBuilder.js';
 
-/**
- * TODO: decouple `user`, `message` types
- */
-type IMessageProps = {
-  user: {
-    id: number;
-    name: string;
-  };
-  message: {
-    text: string;
-    name: string;
-    author: number;
-    time: Date;
-  };
-  hideList: number[];
-  // TODO: make sure where author callback argument is required
-  addToHideList: (author: number) => void;
-  insertName: () => void;
-  insertPic: () => void;
-};
 const Message = (props: IMessageProps) => {
   const getTime = (time) => {
       const t = time.split(/[- :]/);
@@ -56,7 +37,7 @@ const Message = (props: IMessageProps) => {
             props.user.id == props.message.author ||
             (props.message.author <= 0 && props.user.id <= 0)
               ? 'my-nick'
-              : null
+              : ''
           }`}
         >
           <a onClick={props.insertName}>{props.message.name}</a>

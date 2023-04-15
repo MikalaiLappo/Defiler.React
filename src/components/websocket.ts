@@ -20,6 +20,9 @@ export const DefilerSocketDefaults: IDefilerSocketOptions = {
 type ISocketHandler = (...arg: any) => void;
 type ISocketEvent = 'Open' | 'Message' | 'Close' | 'Error' | 'Ping' | 'Pong';
 
+// e.g. { cmd: 'tavern.say', auth: props.auth, text: value })
+export type IMessagePayload = { cmd: string; auth: string; text: string };
+
 export type IDefilerSocketRef = React.MutableRefObject<DefilerSocket | null>;
 
 export default class DefilerSocket {
@@ -87,7 +90,10 @@ export default class DefilerSocket {
 
   /** system */
 
-  send(message: string) {
+  /**
+   * TODO: define strict `message` type (idk what's on the server)
+   */
+  send(message: IMessagePayload | string) {
     if (!this.server || this.server.readyState === WebSocket.CLOSED) {
       return false;
     }
