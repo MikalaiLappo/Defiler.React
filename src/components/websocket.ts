@@ -21,7 +21,7 @@ type ISocketHandler = (...arg: any) => void;
 type ISocketEvent = 'Open' | 'Message' | 'Close' | 'Error' | 'Ping' | 'Pong';
 
 // e.g. { cmd: 'tavern.say', auth: props.auth, text: value })
-export type IMessagePayload = { cmd: string; auth: string; text: string };
+export type IMessagePayload = { cmd: string; auth?: string; text: string };
 
 export type IDefilerSocketRef = React.MutableRefObject<DefilerSocket | null>;
 

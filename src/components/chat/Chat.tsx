@@ -20,12 +20,13 @@ type IChatProps = {
   ws: IDefilerSocketRef;
   auth: string | null;
   messages: IMessagePayload;
+  refreshData: (target: string) => void; // TODO: define all target union types
 };
 const Chat = (props: IChatProps) => {
   const [inputRef, setInputFocus] = useFocus();
   const forceUpdate = useForceUpdate();
   const [value, setValue] = React.useState('');
-  const [ping, setPing] = React.useState(props.ws.getPing());
+  const [ping, setPing] = useState(props.ws.current?.getPing());
   const [lifetime, setLifetime] = React.useState(0);
   const lm = React.useRef<string[]>([]);
   const chosen = React.useRef(-1);
@@ -34,7 +35,13 @@ const Chat = (props: IChatProps) => {
 
   const chatMessage = () => {
     if (value === '') return;
-    if (props.ws.send({ cmd: 'tavern.say', auth: props.auth, text: value })) {
+    if (
+      props.ws.current?.send({
+        cmd: 'tavern.say',
+        auth: props.auth || undefined,
+        text: value,
+      })
+    ) {
       lm.current.push(value);
       lm.current.length > 5 && lm.current.splice(0, lm.current.length - 5);
       chosen.current = -1;
@@ -159,11 +166,13 @@ const Chat = (props: IChatProps) => {
   );
 
   useEffect(() => {
-    props.ws.addListener('Pong', (ping, lifetime) => {
+    if (!props.ws.current) return;
+    const ws = props.ws.current;
+    ws.addListener('Pong', (ping, lifetime) => {
       setPing(ping);
       setLifetime(lifetime);
     });
-    props.ws.addListener('Message', (message) => {
+    ws.addListener('Message', (message) => {
       if (message === 'tavern.msg') {
         props.refreshData('tavern');
         return;
@@ -179,11 +188,11 @@ const Chat = (props: IChatProps) => {
         }
       } catch (e) {}
     });
-    props.ws.addListener('Close', () => {
+    ws.addListener('Close', () => {
       setPing('dead');
       setLifetime(0);
     });
-    props.ws.addListener('Open', () => {
+    ws.addListener('Open', () => {
       setPing('?');
       setLifetime(0);
     });
