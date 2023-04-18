@@ -10,11 +10,11 @@ export type IMessageProps = {
     text: string;
     name: string;
     author: number;
-    time: Date;
+    time: string; // TODO: consider `number` or `Date`
   };
   hideList: number[];
   // TODO: make sure where author callback argument is required
   addToHideList: (author: number) => void;
-  insertName: () => void;
-  insertPic: () => void;
+  insertName: (name: string) => void;
+  insertPic: (pic: string) => void;
 };

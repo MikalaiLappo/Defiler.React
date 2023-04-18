@@ -7,7 +7,7 @@ import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 
 import * as config from '../../config';
-import { IRace } from '../../types/profile';
+import { IRace } from '../../types/user';
 import InputRegion from '../elements/InputRegion';
 import RaceSelector from '../elements/RaceSelector';
 import RecaptchaField from '../elements/RecaptchaField';

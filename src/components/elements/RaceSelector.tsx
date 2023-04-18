@@ -2,7 +2,7 @@ import { Field } from 'formik';
 
 import { useEffect, useState } from 'react';
 
-import { IRace } from '../../types/profile';
+import { IRace } from '../../types/user';
 
 type IRaceSelectorProps = {
   id: string;
