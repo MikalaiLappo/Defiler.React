@@ -1,11 +1,10 @@
+import { IUser } from './user';
+
 /**
  * TODO: decouple `user`, `message` types
  */
 export type IMessageProps = {
-  user: {
-    id: number;
-    name: string;
-  };
+  user: IUser;
   message: {
     text: string;
     name: string;

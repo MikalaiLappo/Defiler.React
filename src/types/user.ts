@@ -1,11 +1,11 @@
 export type IRace = 'terran' | 'zerg' | 'protoss' | 'random';
 
 /**
- * model according (legacy?) api i.e. `/auth.php` response
+ * (response) model according to`/auth.php`
  */
 export type IUser = {
   id: string; // actually a `number` but in `string` type
-  nick: string;
+  name: string;
 };
 
 /**
@@ -21,7 +21,7 @@ export type IHello = {
 };
 
 /**
- * response) model according to `/api/v0/zergling/profile`
+ * (response) model according to `/api/v0/zergling/profile`
  */
 export type IProfile = {
   success: boolean; // http response status
