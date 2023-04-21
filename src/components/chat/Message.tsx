@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
@@ -15,7 +15,7 @@ const Message = (props: IMessageProps) => {
       p >= 0 &&
       (p + props.user.name.length >= props.message.text.length ||
         '., :;()=+'.includes(props.message.text[p + props.user.name.length])),
-    [messageClasses, setMessageClasses] = React.useState(
+    [messageClasses, setMessageClasses] = useState(
       ['chat-message']
         .concat(
           messageToUser && props.user.name !== props.message.name
@@ -34,8 +34,8 @@ const Message = (props: IMessageProps) => {
       <div className="chat-message-header">
         <div
           className={`chat-nick ${
-            props.user.id == props.message.author ||
-            (props.message.author <= 0 && props.user.id <= 0)
+            +props.user.id == props.message.author ||
+            (props.message.author <= 0 && +props.user.id <= 0)
               ? 'my-nick'
               : ''
           }`}
@@ -61,7 +61,7 @@ const Message = (props: IMessageProps) => {
       <div className="chat-message-text">
         <TextBuilder
           text={props.message.text}
-          insertName={props.insertName}
+          insertName={() => props.insertName(props.user.name)}
           insertPic={props.insertPic}
         />
       </div>

@@ -2,7 +2,7 @@ import { Form, Formik } from 'formik';
 import Cookies from 'universal-cookie';
 import * as Yup from 'yup';
 
-import React from 'react';
+import { useState } from 'react';
 
 import { Link, Navigate } from 'react-router-dom';
 
@@ -39,8 +39,8 @@ const formSchema = Yup.object().shape({
 
 type IRegisterProps = { auth: string | null; handler: () => void };
 const Register = (props: IRegisterProps) => {
-  const [busy, setBusy] = React.useState(false);
-  const [message, setMessage] = React.useState<string>(config.messages[11]);
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState<string>(config.messages[11]);
 
   const goRegister = (formValues, setFieldValue) => {
     console.log(formValues);

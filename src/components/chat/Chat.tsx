@@ -1,17 +1,15 @@
 //TODO: разобраться с многократной отрисовкой
 //TODO: баг: первое сообщение со скроллом при первой загрузке сайта вызывает сбой стилей
 //TODO: баг: после добавления сообщения класс to-user не переносится!
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
 import { useFocus, useForceUpdate } from '../../hooks';
-import DefilerSocket, {
-  IDefilerSocketRef,
-  IMessagePayload,
-} from '../websocket';
+import { IUser } from '../../types/user';
+import { IDefilerSocketRef, IMessagePayload } from '../websocket';
 import Message from './Message';
 
 let scrollbarClassFix = true;
@@ -21,17 +19,18 @@ type IChatProps = {
   auth: string | null;
   messages: IMessagePayload;
   refreshData: (target: string) => void; // TODO: define all target union types
+  user: IUser;
 };
 const Chat = (props: IChatProps) => {
   const [inputRef, setInputFocus] = useFocus();
   const forceUpdate = useForceUpdate();
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = useState('');
   const [ping, setPing] = useState(props.ws.current?.getPing());
-  const [lifetime, setLifetime] = React.useState(0);
-  const lm = React.useRef<string[]>([]);
-  const chosen = React.useRef(-1);
-  const temp = React.useRef('');
-  const [hideList, setHideList] = React.useState<number[]>([]);
+  const [lifetime, setLifetime] = useState(0);
+  const lm = useRef<string[]>([]);
+  const chosen = useRef(-1);
+  const temp = useRef('');
+  const [hideList, setHideList] = useState<number[]>([]);
 
   const chatMessage = () => {
     if (value === '') return;

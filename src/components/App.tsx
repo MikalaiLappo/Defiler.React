@@ -32,6 +32,7 @@ import { api, bunkerOrigin } from '../config';
 import '../styles/index.scss';
 import { IStream } from '../types/stream';
 import { IToggles } from '../types/toggles';
+import { IUser } from '../types/user';
 import Bunker from './chat/Bunker';
 import Chat from './chat/Chat';
 import Content from './content/Content';
@@ -52,7 +53,7 @@ import DefilerSocket, {
 const App = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [auth, setAuth] = useState<string | null>(null);
-  const [user, setUser] = useState<{ name: string; id: number } | null>(null);
+  const [user, setUser] = useState<IUser | null>(null);
   const [toggles, setToggles] = useState<IToggles>({
     sidebar: window.innerWidth >= 800,
     twchat: false,
@@ -113,9 +114,9 @@ const App = () => {
       cache: 'no-cache',
     })
       .then((response) => response.json())
-      .then((data) => {
-        setUser({ id: data.id, name: data.name });
-        if (data.id <= 0) {
+      .then((data: IUser) => {
+        setUser(data);
+        if (+data.id <= 0) {
           cookies.remove('DefilerAuthKey');
           setAuth(null);
         }

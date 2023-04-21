@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useParams } from 'react-router-dom';
 
@@ -22,7 +22,7 @@ export default function Stream(props: IStreamProps) {
   const id = !idParam ? 0 : parseInt(idParam);
 
   const [state, setState] = useState<IState>('undetermined');
-  const [stream, setStream] = React.useState<IStream | null>(null);
+  const [stream, setStream] = useState<IStream | null>(null);
 
   const getStreamUrl = (source: IStreamSource, channel: string) => {
     return streamOptions[source].url.replace(/{channel}/gi, channel);
