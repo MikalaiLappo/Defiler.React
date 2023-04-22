@@ -20,6 +20,8 @@ type IChatProps = {
   messages: IMessagePayload;
   refreshData: (target: string) => void; // TODO: define all target union types
   user: IUser;
+  closeToggle: () => void;
+  switchToggle: () => void;
 };
 const Chat = (props: IChatProps) => {
   const [inputRef, setInputFocus] = useFocus();

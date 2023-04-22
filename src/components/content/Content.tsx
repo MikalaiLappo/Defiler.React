@@ -1,15 +1,11 @@
-import React from 'react';
-
 import { Link } from 'react-router-dom';
 
+import { IUser } from '../../types/user';
 import RepsruNews, { INews } from '../repsru/News';
 import RepsruReplays, { IReplay } from '../repsru/Reps';
 
 type IContentProps = {
-  user: {
-    id: number;
-    name: string;
-  } | null;
+  user: IUser;
   data: {
     r_news: INews[];
     r_reps: IReplay[];
@@ -20,7 +16,7 @@ const Content = ({ user, data }: IContentProps) => {
   return (
     <div className="content">
       <div className="user-actions">
-        {!user || user.id === -1 ? (
+        {!user || +user.id === -1 ? (
           <>
             <Link to="/login">
               <button type="button" className="btn form-control">

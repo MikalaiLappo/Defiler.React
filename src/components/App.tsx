@@ -53,7 +53,7 @@ import DefilerSocket, {
 const App = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [auth, setAuth] = useState<string | null>(null);
-  const [user, setUser] = useState<IUser | null>(null);
+  const [user, setUser] = useState<IUser>({ name: 'anon', id: '-1' });
   const [toggles, setToggles] = useState<IToggles>({
     sidebar: window.innerWidth >= 800,
     twchat: false,
@@ -181,7 +181,9 @@ const App = () => {
                 refreshData={refreshData}
                 ws={defilerSocketRef}
                 closeToggle={() => toggle('sidebar')}
-                switchToggle={bunkerChat}
+                switchToggle={() =>
+                  console.log('TODO: `<Chat/>` `props.switchToggle`')
+                } // ??
               />
             )}
             {/*
