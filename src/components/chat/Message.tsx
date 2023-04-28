@@ -2,8 +2,19 @@ import { useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { IMessageProps } from '../../types/chat.js';
-import TextBuilder from './TextBuilder.js';
+import { IMessageData } from '../../types/chat';
+import { IUser } from '../../types/user';
+import TextBuilder from './TextBuilder';
+
+export type IMessageProps = {
+  user: IUser;
+  message: IMessageData;
+  hideList: number[];
+  // TODO: make sure where author callback argument is required
+  addToHideList: (author: number) => void;
+  insertName: (name: string) => void;
+  insertPic: (pic: string) => void;
+};
 
 const Message = (props: IMessageProps) => {
   const getTime = (time) => {
@@ -40,7 +51,9 @@ const Message = (props: IMessageProps) => {
               : ''
           }`}
         >
-          <a onClick={props.insertName}>{props.message.name}</a>
+          <a onClick={() => props.insertName(props.message.name)}>
+            {props.message.name}
+          </a>
         </div>
         <div className="chat-nick-id">
           <Link to={'/user/' + props.message.author}>

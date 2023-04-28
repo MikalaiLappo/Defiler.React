@@ -37,8 +37,8 @@ type IPart = {
 type ITextBuilderProps = {
   handler?: () => void;
   text: string;
-  insertPic: () => void;
-  insertName: () => void;
+  insertPic: (pic: string) => void;
+  insertName: (name: string) => void;
 };
 export default function TextBuilder(props: ITextBuilderProps) {
   function insertPart(parts: IPart[], x, data, before: string, after: string) {

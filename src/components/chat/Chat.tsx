@@ -1,15 +1,22 @@
 //TODO: разобраться с многократной отрисовкой
 //TODO: баг: первое сообщение со скроллом при первой загрузке сайта вызывает сбой стилей
 //TODO: баг: после добавления сообщения класс to-user не переносится!
-import { useEffect, useRef, useState } from 'react';
+import {
+  MutableRefObject,
+  RefObject,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import { Link } from 'react-router-dom';
 
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
 import { useFocus, useForceUpdate } from '../../hooks';
+import { IMessageData } from '../../types/chat';
 import { IUser } from '../../types/user';
-import { IDefilerSocketRef, IMessagePayload } from '../websocket';
+import { IDefilerSocketRef } from '../websocket';
 import Message from './Message';
 
 let scrollbarClassFix = true;
@@ -17,7 +24,7 @@ let scrollbarClassFix = true;
 type IChatProps = {
   ws: IDefilerSocketRef;
   auth: string | null;
-  messages: IMessagePayload;
+  messages: IMessageData[];
   refreshData: (target: string) => void; // TODO: define all target union types
   user: IUser;
   closeToggle: () => void;
@@ -136,35 +143,36 @@ const Chat = (props: IChatProps) => {
       }
     }
   };
-  const messages = props.messages ? (
-    <Message
-      user={props.user}
-      key={0}
-      message={{
-        name: 'StarCraft:Broodwar',
-        author: 0,
-        text: ':happy:',
-        time: '1998-12-18 00:00:00',
-      }}
-      insertName={insertName}
-      insertPic={insertPic}
-      hideList={hideList}
-      addToHideList={addToHideList}
-    />
-  ) : (
-    props.messages.map((message, index) => (
+  const messages =
+    props.messages.length == 0 ? (
       <Message
         user={props.user}
-        //key={index}
-        key={message.id}
-        message={message}
+        key={0}
+        message={{
+          name: 'StarCraft:Broodwar',
+          author: 0,
+          text: ':happy:',
+          time: '1998-12-18 00:00:00',
+        }}
         insertName={insertName}
         insertPic={insertPic}
         hideList={hideList}
         addToHideList={addToHideList}
       />
-    ))
-  );
+    ) : (
+      props.messages.map((message, index) => (
+        <Message
+          user={props.user}
+          //key={index}
+          key={`${message.text}${index}` /*message.id*/} // TODO: figure out what's the `id` thing
+          message={message}
+          insertName={insertName}
+          insertPic={insertPic}
+          hideList={hideList}
+          addToHideList={addToHideList}
+        />
+      ))
+    );
 
   useEffect(() => {
     if (!props.ws.current) return;
@@ -187,7 +195,9 @@ const Chat = (props: IChatProps) => {
             );
           setPing(msg.message);
         }
-      } catch (e) {}
+      } catch (e) {
+        console.warn(e);
+      } // TODO: handle the error case somehow?
     });
     ws.addListener('Close', () => {
       setPing('dead');
@@ -235,7 +245,7 @@ const Chat = (props: IChatProps) => {
       </PerfectScrollbar>
       <div className="chat-footer">
         <input
-          ref={inputRef}
+          ref={inputRef as RefObject<HTMLInputElement>}
           type="text"
           className=""
           autoComplete="off"
