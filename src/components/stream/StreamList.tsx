@@ -1,4 +1,3 @@
-import React from 'react';
 import { useEffect, useRef } from 'react';
 
 import { Link } from 'react-router-dom';
@@ -16,7 +15,7 @@ const StreamList = ({
   currentStream,
   refreshData,
 }: IStreamListProps) => {
-  const sortedList = streams.sort((a, b) => {
+  const sortedList = streams.slice().sort((a, b) => {
     const typeIndex = (type) => {
       return ['defiler', 'progamer', 'other', 'heresy'].findIndex(
         (x) => x === type,

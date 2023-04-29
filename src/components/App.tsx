@@ -62,7 +62,14 @@ const App = () => {
   });
   const [bunkerChat, setBunkerChat] = useState<boolean>(true);
   const [currentStream, setCurrentStream] = useState<IStream | null>(null);
-  const [data, setData] = useState<any>({ title: 'Defi' }); // TODO: get rid of `any`
+  const [data, setData] = useState({
+    // TODO: declare explicit type
+    title: 'Defi',
+    streams: [],
+    tavern: [],
+    r_news: [],
+    r_reps: [],
+  }); // TODO: get rid of `any`
   const defilerSocketRef: IDefilerSocketRef = useRef(null);
 
   const toggle = (k: keyof typeof toggles) => {
