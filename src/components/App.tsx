@@ -20,9 +20,7 @@ testiki
 */
 import Cookies from 'universal-cookie';
 
-import React, { useEffect, useRef, useState } from 'react';
-
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
 
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -38,12 +36,14 @@ import Chat from './chat/Chat';
 import Content from './content/Content';
 // Defiler Components
 import ControlPanel from './control/ControlPanel';
-import SupplyText from './elements/SupplyText';
+// TODO: redefine pages routes with new `react-dom-router` version
+
+/* import SupplyText from './elements/SupplyText';
 import Login from './profile/Login';
 import Logout from './profile/Logout';
 import Profile from './profile/Profile';
 import Register from './profile/Register';
-import Stream from './stream/Stream';
+import Stream from './stream/Stream'; */
 import StreamList from './stream/StreamList';
 import DefilerSocket, {
   DefilerSocketDefaults,
@@ -176,24 +176,23 @@ const App = () => {
   return (
     <>
       <div id="page-container">
-        <Router>
-          <nav id="sidebar" className={!toggles.sidebar ? 'hidden' : ''}>
-            {bunkerChat ? (
-              <Bunker auth={auth} />
-            ) : (
-              <Chat
-                auth={auth}
-                user={user}
-                messages={data.tavern}
-                refreshData={refreshData}
-                ws={defilerSocketRef}
-                closeToggle={() => toggle('sidebar')}
-                switchToggle={() =>
-                  console.log('TODO: `<Chat/>` `props.switchToggle`')
-                } // ??
-              />
-            )}
-            {/*
+        <nav id="sidebar" className={!toggles.sidebar ? 'hidden' : ''}>
+          {bunkerChat ? (
+            <Bunker auth={auth} />
+          ) : (
+            <Chat
+              auth={auth}
+              user={user}
+              messages={data.tavern}
+              refreshData={refreshData}
+              ws={defilerSocketRef}
+              closeToggle={() => toggle('sidebar')}
+              switchToggle={() =>
+                console.log('TODO: `<Chat/>` `props.switchToggle`')
+              } // ??
+            />
+          )}
+          {/*
                         <>
                             <div className="sidebar-header">
                                 <div className="close" onClick={() => {
@@ -218,111 +217,64 @@ const App = () => {
                             </div>
                         </>
                         */}
-          </nav>
-          <nav
-            id="stream-list"
-            className={!toggles.streamList ? 'hidden' : ''}
-            key={toggles.toString()}
-          >
-            {' '}
-            {/* TODO: make sure wheather the key needed at all */}
-            <div className="stream-list-wrapper">
-              <div className="cover">&nbsp;</div>
-              <div
-                className="close"
-                onClick={() => {
-                  toggle('streamList');
-                }}
-              >
-                &nbsp;
-              </div>
-              <PerfectScrollbar
-                className="container"
-                options={{ wheelPropagation: false }}
-              >
-                <StreamList
-                  streams={data.streams}
-                  currentStream={currentStream}
-                  refreshData={refreshData}
-                />
-              </PerfectScrollbar>
+        </nav>
+        <nav
+          id="stream-list"
+          className={!toggles.streamList ? 'hidden' : ''}
+          key={toggles.toString()}
+        >
+          {' '}
+          {/* TODO: make sure wheather the key needed at all */}
+          <div className="stream-list-wrapper">
+            <div className="cover">&nbsp;</div>
+            <div
+              className="close"
+              onClick={() => {
+                toggle('streamList');
+              }}
+            >
+              &nbsp;
             </div>
-          </nav>
-          <div
-            id="mainbar"
-            className={!toggles.sidebar ? 'full' : 'with-sidebar'}
-          >
-            <div className="wrapper">
-              <header>
-                <ControlPanel
-                  toggles={toggles}
-                  toggleHandler={toggle}
-                  streamListCount={
-                    data.streams?.length
-                  } /* TODO: maybe refactor after `data` typings */
-                  socketRef={defilerSocketRef}
-                  socketSendMessage={sendMessage}
-                  currentStream={currentStream}
-                />
-              </header>
-              <main>
-                <HelmetProvider>
-                  <Routes>
-                    <Route path="/login">
-                      <Helmet>
-                        <title>{data.title + ': login'}</title>
-                      </Helmet>
-                      <Login auth={auth} handler={refreshAuth} />
-                    </Route>
-                    <Route path="/logout">
-                      <Helmet>
-                        <title>{data.title + ': logout'}</title>
-                      </Helmet>
-                      <Logout auth={auth} handler={refreshAuth} />
-                    </Route>
-                    <Route path="/profile">
-                      <Helmet>
-                        <title>{data.title + ': profile'}</title>
-                      </Helmet>
-                      <Profile auth={auth} handler={refreshAuth} />
-                    </Route>
-                    <Route path="/password">
-                      <Helmet>
-                        <title>{data.title + ': change password'}</title>
-                      </Helmet>
-                      okay :(
-                    </Route>
-                    <Route path="/register">
-                      <Helmet>
-                        <title>{data.title + ': registration'}</title>
-                      </Helmet>
-                      <Register auth={auth} handler={refreshAuth} />
-                    </Route>
-                    <Route path="/stream/:id">
-                      <Stream
-                        title={data.title}
-                        twchat={toggles.twchat}
-                        data={data}
-                        setCurrentStream={setCurrentStream}
-                      />
-                    </Route>
-                    <Route path="/user/:id">--</Route>
-                    <Route path="/supply/:id">
-                      <SupplyText />
-                    </Route>
-                    <Route path="/">
-                      <Helmet>
-                        <title>{data.title}</title>
-                      </Helmet>
-                      <Content user={user} data={data} />
-                    </Route>
-                  </Routes>
-                </HelmetProvider>
-              </main>
-              <footer>(c) Defiler.ru 1998 forever</footer>
-            </div>
+            <PerfectScrollbar
+              className="container"
+              options={{ wheelPropagation: false }}
+            >
+              <StreamList
+                streams={data.streams}
+                currentStream={currentStream}
+                refreshData={refreshData}
+              />
+            </PerfectScrollbar>
           </div>
-        </Router>
+        </nav>
+        <div
+          id="mainbar"
+          className={!toggles.sidebar ? 'full' : 'with-sidebar'}
+        >
+          <div className="wrapper">
+            <header>
+              <ControlPanel
+                toggles={toggles}
+                toggleHandler={toggle}
+                streamListCount={
+                  data.streams?.length
+                } /* TODO: maybe refactor after `data` typings */
+                socketRef={defilerSocketRef}
+                socketSendMessage={sendMessage}
+                currentStream={currentStream}
+              />
+            </header>
+            <main>
+              <HelmetProvider>
+                <Helmet>
+                  <title>{data.title}</title>
+                </Helmet>
+                <Content user={user} data={data} />
+              </HelmetProvider>
+            </main>
+            <footer>(c) Defiler.ru 1998 forever</footer>
+          </div>
+        </div>
       </div>
     </>
   );
