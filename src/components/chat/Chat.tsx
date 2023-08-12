@@ -13,7 +13,8 @@ import { Link } from 'react-router-dom';
 
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
-import { useFocus, useForceUpdate } from '../../hooks';
+import { useFocus } from '../../hooks/useFocus';
+import { useForceUpdate } from '../../hooks/useForceUpdate';
 import { IMessageData } from '../../types/chat';
 import { IUser } from '../../types/user';
 import { IDefilerSocketRef } from '../websocket';
