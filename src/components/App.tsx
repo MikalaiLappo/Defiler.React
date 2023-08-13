@@ -22,6 +22,8 @@ import Cookies from 'universal-cookie';
 
 import { useEffect, useRef, useState } from 'react';
 
+import { Route, Routes } from 'react-router-dom';
+
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
@@ -36,14 +38,15 @@ import Chat from './chat/Chat';
 import Content from './content/Content';
 // Defiler Components
 import ControlPanel from './control/ControlPanel';
-// TODO: redefine pages routes with new `react-dom-router` version
-
-/* import SupplyText from './elements/SupplyText';
-import Login from './profile/Login';
-import Logout from './profile/Logout';
-import Profile from './profile/Profile';
-import Register from './profile/Register';
-import Stream from './stream/Stream'; */
+import SupplyText from './elements/SupplyText';
+import {
+  LoginRoute,
+  LogoutRoute,
+  PasswordRoute,
+  ProfileRoute,
+  RegisterRoute,
+} from './profile/ProfileRouteList';
+import Stream from './stream/Stream';
 import StreamList from './stream/StreamList';
 import DefilerSocket, {
   DefilerSocketDefaults,
@@ -266,9 +269,62 @@ const App = () => {
             </header>
             <main>
               <HelmetProvider>
-                <Helmet>
-                  <title>{data.title}</title>
-                </Helmet>
+                {/** TODO: find a better way to group routes */}
+                <Routes>
+                  <Route
+                    path="/"
+                    element={
+                      <Helmet>
+                        <title>{data.title}</title>
+                      </Helmet>
+                    }
+                  />
+                  {/** Profile routes */}
+                  <LoginRoute
+                    path="/login"
+                    title={data.title}
+                    auth={auth}
+                    callback={refreshAuth}
+                  />
+                  <LogoutRoute
+                    path="/logout"
+                    title={data.title}
+                    auth={auth}
+                    callback={refreshAuth}
+                  />
+                  <ProfileRoute
+                    path="/profile"
+                    title={data.title}
+                    auth={auth}
+                    callback={refreshAuth}
+                  />
+                  <PasswordRoute
+                    path="/password"
+                    title={data.title}
+                    auth={auth}
+                    callback={refreshAuth}
+                  />
+                  <RegisterRoute
+                    path="/register"
+                    title={data.title}
+                    auth={auth}
+                    callback={refreshAuth}
+                  />
+                  {/** Profile routes end */}
+                  <Route
+                    path="/stream/:id"
+                    element={
+                      <Stream
+                        title={data.title}
+                        twchat={toggles.twchat}
+                        data={data}
+                        setCurrentStream={setCurrentStream}
+                      />
+                    }
+                  />
+                  <Route path="/user/:id" element={<>--</>} />
+                  <Route path="/supply/:id" element={<SupplyText />} />
+                </Routes>
                 <Content user={user} data={data} />
               </HelmetProvider>
             </main>
