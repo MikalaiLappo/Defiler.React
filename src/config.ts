@@ -37,7 +37,9 @@ export const apiInfo = {
   },
 } as const;
 
-export function api(cmd: string, key?: number | string | boolean) {
+export type TApiCmd = keyof (typeof apiInfo)['cmd'];
+
+export function api(cmd: TApiCmd, key?: number | string | boolean) {
   return apiInfo.url + apiInfo.ver + apiInfo.cmd[cmd] + (key ? '/' + key : '');
 }
 
@@ -81,6 +83,7 @@ export const messages = [
 
 let talkTimer = 0;
 
+// TODO: complete these typings
 export function talk(i: number, x, handler, setProcess, process = -1) {
   if (typeof messages[i] === typeof undefined) return false;
   if (typeof handler !== 'function' || typeof setProcess !== 'function')

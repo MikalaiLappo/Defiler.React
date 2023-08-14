@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
+import { TApiCmd } from '../../config';
 import { useFocus } from '../../hooks/useFocus';
 import { useForceUpdate } from '../../hooks/useForceUpdate';
 import { IMessageData } from '../../types/chat';
@@ -26,7 +27,7 @@ type IChatProps = {
   ws: IDefilerSocketRef;
   auth: string | null;
   messages: IMessageData[];
-  refreshData: (target: string) => void; // TODO: define all target union types
+  refreshData: (target: TApiCmd) => void; // TODO: define all target union types
   user: IUser;
   closeToggle: () => void;
   switchToggle: () => void;

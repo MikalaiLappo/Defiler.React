@@ -28,7 +28,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
-import { api, bunkerOrigin } from '../config';
+import { TApiCmd, api, bunkerOrigin } from '../config';
 import '../styles/index.scss';
 import { IStream } from '../types/stream';
 import { IToggles } from '../types/toggles';
@@ -136,13 +136,16 @@ const App = () => {
       });
   };
 
-  const refreshData = (
-    dataField = 'carrier',
-    command: boolean | string | undefined = false,
-  ) => {
+  /**
+   * TODO:
+   * `command` used to be solely 1 by `dataField`
+   *  it seems like either some logic is missing (could be API url `key` parameter)
+   *  or one of the arguments is redundant
+   */
+  const refreshData = (dataField: TApiCmd = 'carrier', command?: string) => {
     //console.log(dataField)
-    if (command === false) command = dataField;
-    fetch(api(command.toString()), {
+    // if (!command) command = dataField;
+    fetch(api(dataField), {
       method: 'GET',
       headers: {
         Accept: 'application/json',

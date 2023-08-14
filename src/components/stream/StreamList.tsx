@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom';
 
+import { TApiCmd } from '../../config';
 import { useInterval } from '../../hooks/useInterval';
 import { IStream } from '../../types/stream';
 
 type IStreamListProps = {
   streams: IStream[];
   currentStream: IStream | null;
-  refreshData: (a: string, b: string) => void;
+  refreshData: (apiCmd: TApiCmd, b: string) => void;
 };
 
 const StreamList = ({
@@ -29,7 +30,7 @@ const StreamList = ({
   });
 
   useInterval(() => {
-    refreshData('streams', 'online');
+    refreshData('stream', 'online');
   }, 60000);
 
   return (
