@@ -62,6 +62,9 @@ const App = () => {
   });
   const [bunkerChat, setBunkerChat] = useState<boolean>(true);
   const [currentStream, setCurrentStream] = useState<IStream | null>(null);
+  /**
+   * TODO: move to state manager
+   */
   const [data, setData] = useState({
     // TODO: declare explicit type
     title: 'Defi',

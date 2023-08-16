@@ -4,9 +4,10 @@ TS-rewrite / refactor of the website
 
 ## Milestone
 
-- [x] React 18
+- [x] React 16 -> 18
 - [x] Incorporate TS
-- [ ] Refactor routing
+- [x] Refactor routing
+- [ ] Add Redux-TK
 - [ ] Setup WebSocket client
 - [ ] Add voice messages
 
