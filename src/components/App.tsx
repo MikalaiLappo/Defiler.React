@@ -39,13 +39,10 @@ import Content from './content/Content';
 // Defiler Components
 import ControlPanel from './control/ControlPanel';
 import SupplyText from './elements/SupplyText';
-import {
-  LoginRoute,
-  LogoutRoute,
-  PasswordRoute,
-  ProfileRoute,
-  RegisterRoute,
-} from './profile/ProfileRouteList';
+import Login from './profile/Login';
+import Logout from './profile/Logout';
+import Profile from './profile/Profile';
+import Register from './profile/Register';
 import Stream from './stream/Stream';
 import StreamList from './stream/StreamList';
 import DefilerSocket, {
@@ -283,35 +280,60 @@ const App = () => {
                     }
                   />
                   {/** Profile routes */}
-                  <LoginRoute
+                  <Route
                     path="/login"
-                    title={data.title}
-                    auth={auth}
-                    callback={refreshAuth}
+                    element={
+                      <>
+                        <Helmet>
+                          <title>{data.title + ': login'}</title>
+                        </Helmet>
+                        <Login auth={auth} handler={refreshAuth} />
+                      </>
+                    }
                   />
-                  <LogoutRoute
-                    path="/logout"
-                    title={data.title}
-                    auth={auth}
-                    callback={refreshAuth}
+                  <Route
+                    path="/logiout"
+                    element={
+                      <>
+                        <Helmet>
+                          <title>{data.title + ': logout'}</title>
+                        </Helmet>
+                        <Logout auth={auth} handler={refreshAuth} />
+                      </>
+                    }
                   />
-                  <ProfileRoute
+                  <Route
                     path="/profile"
-                    title={data.title}
-                    auth={auth}
-                    callback={refreshAuth}
+                    element={
+                      <>
+                        <Helmet>
+                          <title>{data.title + ': profile'}</title>
+                        </Helmet>
+                        <Profile auth={auth} handler={refreshAuth} />
+                      </>
+                    }
                   />
-                  <PasswordRoute
+                  <Route
                     path="/password"
-                    title={data.title}
-                    auth={auth}
-                    callback={refreshAuth}
+                    element={
+                      <>
+                        <Helmet>
+                          <title>{data.title + ': change password'}</title>
+                        </Helmet>
+                        okay :(
+                      </>
+                    }
                   />
-                  <RegisterRoute
-                    path="/register"
-                    title={data.title}
-                    auth={auth}
-                    callback={refreshAuth}
+                  <Route
+                    path={'/register'}
+                    element={
+                      <>
+                        <Helmet>
+                          <title>{data.title + ': registration'}</title>
+                        </Helmet>
+                        <Register auth={auth} handler={refreshAuth} />
+                      </>
+                    }
                   />
                   {/** Profile routes end */}
                   <Route
