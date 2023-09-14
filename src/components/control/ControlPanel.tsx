@@ -41,20 +41,25 @@ const ControlPanel = ({
         </div>
       </Link>
       <Routes>
-        <Route path="/stream/:id">
-          {currentStream && currentStream.source === 'twitch' && (
-            <div
-              className={`button toggle twchat ${
-                toggles.twchat ? 'active' : null
-              }`}
-              onClick={() => {
-                toggleHandler('twchat');
-              }}
-            >
-              <div className="icon"></div>
-            </div>
-          )}
-        </Route>
+        <Route
+          path="/stream/:id"
+          element={
+            <>
+              {currentStream && currentStream.source === 'twitch' && (
+                <div
+                  className={`button toggle twchat ${
+                    toggles.twchat ? 'active' : null
+                  }`}
+                  onClick={() => {
+                    toggleHandler('twchat');
+                  }}
+                >
+                  <div className="icon"></div>
+                </div>
+              )}
+            </>
+          }
+        />
       </Routes>
       <div
         className={`button toggle tv ${toggles.streamList ? 'active' : null}`}
