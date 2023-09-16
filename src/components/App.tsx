@@ -277,9 +277,12 @@ const App = () => {
                   <Route
                     path="/"
                     element={
-                      <Helmet>
-                        <title>{data.title}</title>
-                      </Helmet>
+                      <>
+                        <Helmet>
+                          <title>{data.title}</title>
+                        </Helmet>
+                        <Content user={user} />
+                      </>
                     }
                   />
                   {/** Profile routes */}
@@ -353,7 +356,6 @@ const App = () => {
                   <Route path="/user/:id" element={<>--</>} />
                   <Route path="/supply/:id" element={<SupplyText />} />
                 </Routes>
-                <Content user={user} />
               </HelmetProvider>
             </main>
             <footer>(c) Defiler.ru 1998 forever</footer>
