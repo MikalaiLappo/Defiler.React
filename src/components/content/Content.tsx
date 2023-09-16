@@ -1,18 +1,12 @@
 import { Link } from 'react-router-dom';
 
 import { IUser } from '../../types/user';
-import RepsruNews, { INews } from '../repsru/News';
-import RepsruReplays, { IReplay } from '../repsru/Reps';
 
 type IContentProps = {
   user: IUser;
-  data: {
-    r_news: INews[];
-    r_reps: IReplay[];
-  };
 };
 
-const Content = ({ user, data }: IContentProps) => {
+const Content = ({ user }: IContentProps) => {
   return (
     <div className="content">
       <div className="user-actions">
@@ -46,11 +40,9 @@ const Content = ({ user, data }: IContentProps) => {
       <br />
       <br />
 
-      <div className="repsru_content">
-        <RepsruNews news={data.r_news} />
-        <RepsruReplays replays={data.r_reps} />
-        {/*--<div className="buran"> </div>*/}
-      </div>
+      <a href="//reps.ru" target="_blank" rel="noreferrer">
+        <div className="repsru_content"></div>
+      </a>
       <a href="./tourney/">
         <img
           src="https://supply.defiler.ru/img/dt/dtour.jpg"

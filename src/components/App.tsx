@@ -70,8 +70,8 @@ const App = () => {
     title: 'Defi',
     streams: [],
     tavern: [],
-    r_news: [],
-    r_reps: [],
+    r_news: [], // TODO: remove this reps.ru data
+    r_reps: [], // the thing is served by current `/attack` endpoint anyway
   }); // TODO: get rid of `any`
   const defilerSocketRef: IDefilerSocketRef = useRef(null);
 
@@ -353,7 +353,7 @@ const App = () => {
                   <Route path="/user/:id" element={<>--</>} />
                   <Route path="/supply/:id" element={<SupplyText />} />
                 </Routes>
-                <Content user={user} data={data} />
+                <Content user={user} />
               </HelmetProvider>
             </main>
             <footer>(c) Defiler.ru 1998 forever</footer>
