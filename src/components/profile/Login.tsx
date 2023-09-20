@@ -3,13 +3,14 @@ import { Form, Formik } from 'formik';
 import Cookies from 'universal-cookie';
 import * as Yup from 'yup';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { Navigate } from 'react-router-dom';
 //import ru from "date-fns/locale/ru"
 import { Link } from 'react-router-dom';
 
 import * as config from '../../config';
+import { AuthService, TLoginData } from '../../services/auth.service';
 import InputRegion from '../elements/InputRegion';
 
 const formInitialValues = {
@@ -32,40 +33,27 @@ const Login = (props: ILoginProps) => {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string>(config.messages[1]);
 
-  const goLogin = (formValues, e) => {
-    const cookies = new Cookies(),
-      now = new Date(),
-      expires = addDays(now, config.cookieExpires),
-      cookieOptions = formValues.rememberMe
-        ? { expires: expires, path: '/' }
-        : { path: '/' };
-    setBusy(true);
-    setMessage('...');
-    fetch(config.api('token'), {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+  const goLogin = (formValues: TLoginData) => {
+    AuthService.Login(formValues, {
+      onPending: () => {
+        setBusy(true);
+        setMessage('...');
       },
-      body: JSON.stringify(formValues),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          setBusy(false);
-          setMessage(config.messages[0]);
-          cookies.set('DefilerAuthKey', data.token, cookieOptions);
-          props.handler();
-        } else {
-          setBusy(false);
-          setMessage(config.messages[4] + data.message);
-        }
-      })
-      .catch((e) => {
+      onSuccess: () => {
+        setBusy(false);
+        setMessage(config.messages[0]);
+        props.handler();
+      },
+      onInvalid: (response: any) => {
+        setBusy(false);
+        setMessage(config.messages[4] + response.message);
+      },
+      onError: (error: any) => {
         setBusy(false);
         setMessage(config.messages[2]);
-        console.log(e);
-      });
+        console.log(error);
+      },
+    });
   };
 
   if (props.auth) return <Navigate to="/logout" />;
