@@ -2,6 +2,7 @@ import { addDays } from 'date-fns';
 import Cookies from 'universal-cookie';
 
 import * as config from '../config';
+import { Token } from '../store/slices/authSlice';
 
 export type TLoginData = {
   login: string;
@@ -9,17 +10,23 @@ export type TLoginData = {
   rememberMe: boolean;
 };
 
-export type TStageCBs = {
+export type LoginStages = {
   onPending: () => void;
   onSuccess: (response?: any) => void;
   onInvalid: (response?: any) => void;
   onError: (response?: any) => void;
 };
 
+export type LogoutStages = {
+  onPending: () => void;
+  onResponse: (response?: any) => void;
+  onError: (response?: any) => void;
+};
+
 class AuthService {
   public static Login(
     formValues: TLoginData,
-    { onPending, onSuccess, onError, onInvalid }: TStageCBs,
+    { onPending, onSuccess, onError, onInvalid }: LoginStages,
   ) {
     onPending();
 
@@ -41,15 +48,39 @@ class AuthService {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
+          /** hardcoded core stuff */
           cookies.set('DefilerAuthKey', data.token, cookieOptions);
+          /** core stuff end */
           onSuccess(data);
         } else {
           onInvalid();
         }
       })
-      .catch((e) => {
-        onError();
-      });
+      .catch(onError);
+  }
+
+  public static Logout(
+    token: Token,
+    { onPending, onError, onResponse }: LogoutStages,
+  ) {
+    onPending();
+    fetch(config.api('logout'), {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ auth: token }),
+    })
+      .then((response) => response.json())
+      .then(() => {
+        /** hardcoded core stuff */
+        const cookies = new Cookies();
+        cookies.remove('DefilerAuthKey');
+        /** core stuff end */
+        onResponse();
+      })
+      .catch(onError);
   }
 }
 
