@@ -1,19 +1,12 @@
 //TODO: разобраться с многократной отрисовкой
 //TODO: баг: первое сообщение со скроллом при первой загрузке сайта вызывает сбой стилей
 //TODO: баг: после добавления сообщения класс to-user не переносится!
-import {
-  MutableRefObject,
-  RefObject,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
-import { TApiCmd } from '../../config';
 import { useFocus } from '../../hooks/useFocus';
 import { useForceUpdate } from '../../hooks/useForceUpdate';
 import { useAppSelector } from '../../store/hooks';
@@ -113,48 +106,10 @@ const Chat = (props: IChatProps) => {
     setValue(value + '' + e.target.getAttribute('alt') + '');
     setInputFocus();
   };
-  const getPingColor = (v) => {
-    if (v === '?') return 'ping-blue';
-    if (v === 'dead') return 'ping-red';
-    if (!Number.isInteger(v)) return 'ping-violet';
-    v = v * 1;
-    if (v < 100) return 'ping-green';
-    if (v >= 100 && v < 200) return 'ping-yellow';
-    if (v >= 200 && v < 500) return 'ping-orange';
-    if (v >= 500 && v < 1000) return 'ping-salmon';
-    if (v >= 1000) return 'ping-red';
-  };
-  const getLifetime = (p) => {
-    const x = Math.floor(p / (60 * 1000)),
-      days = Math.floor(x / (60 * 24)),
-      hours = Math.floor(x / 60) - days * 24,
-      mins = x % 60,
-      lifetime = [
-        days > 0 ? days + 'd' : null,
-        hours > 0 ? hours + 'h' : null,
-        mins > 0 ? mins + 'm' : null,
-      ]
-        .join(' ')
-        .trim();
-    if (x < 0) return 'error';
-    return lifetime === '' ? '-' : lifetime;
-  };
   const addToHideList = (id: number) => {
     setHideList((prev) => [...prev, id]);
     setHideList(hideList);
     forceUpdate();
-  };
-  const updateScrollClass = () => {
-    const messages = document.getElementsByClassName('chat-message');
-    for (let i = 0; i < messages.length; i++) {
-      const msgText =
-        messages[i].getElementsByClassName('chat-message-text')[0];
-      if (msgText.scrollHeight > msgText.clientHeight) {
-        messages[i].classList.add('has-scrollbar');
-      } else if (messages[i].classList.contains('has-scrollbar')) {
-        messages[i].classList.remove('has-scrollbar');
-      }
-    }
   };
   useEffect(() => {
     hydrateMessages();
@@ -282,5 +237,49 @@ const Chat = (props: IChatProps) => {
     </div>
   );
 };
+
+// Util funs
+const updateScrollClass = () => {
+  // TODO:
+  // Change direct DOM access to React??
+  const messages = document.getElementsByClassName('chat-message');
+  for (let i = 0; i < messages.length; i++) {
+    const msgText = messages[i].getElementsByClassName('chat-message-text')[0];
+    if (msgText.scrollHeight > msgText.clientHeight) {
+      messages[i].classList.add('has-scrollbar');
+    } else if (messages[i].classList.contains('has-scrollbar')) {
+      messages[i].classList.remove('has-scrollbar');
+    }
+  }
+};
+
+const getLifetime = (p) => {
+  const x = Math.floor(p / (60 * 1000)),
+    days = Math.floor(x / (60 * 24)),
+    hours = Math.floor(x / 60) - days * 24,
+    mins = x % 60,
+    lifetime = [
+      days > 0 ? days + 'd' : null,
+      hours > 0 ? hours + 'h' : null,
+      mins > 0 ? mins + 'm' : null,
+    ]
+      .join(' ')
+      .trim();
+  if (x < 0) return 'error';
+  return lifetime === '' ? '-' : lifetime;
+};
+
+const getPingColor = (v) => {
+  if (v === '?') return 'ping-blue';
+  if (v === 'dead') return 'ping-red';
+  if (!Number.isInteger(v)) return 'ping-violet';
+  v = v * 1;
+  if (v < 100) return 'ping-green';
+  if (v >= 100 && v < 200) return 'ping-yellow';
+  if (v >= 200 && v < 500) return 'ping-orange';
+  if (v >= 500 && v < 1000) return 'ping-salmon';
+  if (v >= 1000) return 'ping-red';
+};
+// End utils funcs
 
 export default Chat;
