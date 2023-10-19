@@ -1,16 +1,14 @@
 import { Link } from 'react-router-dom';
 
-import { IUser } from '../../types/user';
+import { useAppSelector } from '../../store/hooks';
 
-type IContentProps = {
-  user: IUser;
-};
+const Content = () => {
+  const token = useAppSelector((state) => state.auth.token);
 
-const Content = ({ user }: IContentProps) => {
   return (
     <div className="content">
       <div className="user-actions">
-        {!user || +user.id === -1 ? (
+        {token ? (
           <>
             <Link to="/login">
               <button type="button" className="btn form-control">

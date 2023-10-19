@@ -30,11 +30,14 @@ Another option would be to use calc().
 </section>
 */
 import Iframe from 'react-iframe';
+import { useSelector } from 'react-redux';
 
 import * as config from '../../config';
+import { selectToken } from '../../store/slices/authSlice';
 
-type IBunkerProps = { auth?: string | null };
-const Bunker = (props: IBunkerProps) => {
+const Bunker = () => {
+  const token = useSelector(selectToken);
+
   const msgToBunker = () => {
     const frame = document.getElementById('lisy-chat');
     (frame as HTMLIFrameElement)?.contentWindow?.postMessage(
@@ -46,7 +49,7 @@ const Bunker = (props: IBunkerProps) => {
   return (
     <Iframe
       id="lisy-chat"
-      url={config.bunkerChat + '?auth=' + (props.auth || '')}
+      url={config.bunkerChat + '?auth=' + (token || '')}
       width="100%"
       height="100%"
       frameBorder={0}

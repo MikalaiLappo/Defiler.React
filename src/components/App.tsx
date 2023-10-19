@@ -184,7 +184,7 @@ const App = () => {
       <div id="page-container">
         <nav id="sidebar" className={!toggles.sidebar ? 'hidden' : ''}>
           {bunkerChat ? (
-            <Bunker auth={auth} />
+            <Bunker />
           ) : (
             <Chat
               auth={auth}
@@ -281,7 +281,7 @@ const App = () => {
                         <Helmet>
                           <title>{data.title}</title>
                         </Helmet>
-                        <Content user={user} />
+                        <Content />
                       </>
                     }
                   />
@@ -293,18 +293,18 @@ const App = () => {
                         <Helmet>
                           <title>{data.title + ': login'}</title>
                         </Helmet>
-                        <Login auth={auth} handler={refreshAuth} />
+                        <Login />
                       </>
                     }
                   />
                   <Route
-                    path="/logiout"
+                    path="/logout"
                     element={
                       <>
                         <Helmet>
                           <title>{data.title + ': logout'}</title>
                         </Helmet>
-                        <Logout auth={auth} handler={refreshAuth} />
+                        <Logout />
                       </>
                     }
                   />
@@ -315,7 +315,7 @@ const App = () => {
                         <Helmet>
                           <title>{data.title + ': profile'}</title>
                         </Helmet>
-                        <Profile auth={auth} handler={refreshAuth} />
+                        <Profile />
                       </>
                     }
                   />
@@ -337,7 +337,7 @@ const App = () => {
                         <Helmet>
                           <title>{data.title + ': registration'}</title>
                         </Helmet>
-                        <Register auth={auth} handler={refreshAuth} />
+                        <Register />
                       </>
                     }
                   />

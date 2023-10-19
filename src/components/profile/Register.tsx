@@ -7,6 +7,8 @@ import { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 
 import * as config from '../../config';
+import { useAppSelector } from '../../store/hooks';
+import { selectToken } from '../../store/slices/authSlice';
 import { IRace } from '../../types/user';
 import InputRegion from '../elements/InputRegion';
 import RaceSelector from '../elements/RaceSelector';
@@ -37,10 +39,10 @@ const formSchema = Yup.object().shape({
   recaptcha: Yup.string().required('Click checkbox'),
 });
 
-type IRegisterProps = { auth: string | null; handler: () => void };
-const Register = (props: IRegisterProps) => {
+const Register = () => {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string>(config.messages[11]);
+  const token = useAppSelector(selectToken);
 
   const goRegister = (formValues, setFieldValue) => {
     console.log(formValues);
@@ -62,7 +64,7 @@ const Register = (props: IRegisterProps) => {
           setBusy(false);
           setMessage('registered');
           cookies.set('DefilerAuthKey', data.token, cookieOptions);
-          props.handler();
+          //props.handler();
         } else {
           setBusy(false);
           setMessage(data.message);
@@ -77,7 +79,7 @@ const Register = (props: IRegisterProps) => {
       });
   };
 
-  if (props.auth) return <Navigate to="/profile" />;
+  if (token) return <Navigate to="/profile" />;
 
   return (
     <Formik

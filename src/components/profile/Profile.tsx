@@ -2,11 +2,14 @@ import { Form, Formik } from 'formik';
 import Cookies from 'universal-cookie';
 import * as Yup from 'yup';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Link, Navigate } from 'react-router-dom';
 
 import * as config from '../../config';
+import { AuthService, TLoginData } from '../../services/auth.service';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { login, logout, selectToken } from '../../store/slices/authSlice';
 import { IRace } from '../../types/user';
 import InputRegion from '../elements/InputRegion';
 import RaceSelector from '../elements/RaceSelector';
@@ -26,12 +29,12 @@ const formSchema = Yup.object().shape({
   ),
 });
 
-type IProfileProps = { auth: string | null; handler: () => void };
-const Profile = (props: IProfileProps) => {
+const Profile = () => {
   const [busy, setBusy] = useState(true);
   const [talking, setTalking] = useState(-1);
   const [message, setMessage] = useState<string>(config.messages[5]);
   const [profileValues, setProfileValues] = useState(formInitialValues);
+  const token = useAppSelector(selectToken);
 
   const talk = (i) => {
     config.talk(i, 0, setMessage, setTalking, talking);
@@ -41,7 +44,7 @@ const Profile = (props: IProfileProps) => {
     config.abort();
     setMessage('...');
     setBusy(true);
-    formValues.auth = props.auth;
+    formValues.auth = token;
     fetch(config.api('save'), {
       method: 'POST',
       headers: {
@@ -55,7 +58,7 @@ const Profile = (props: IProfileProps) => {
         setBusy(false);
         if (data.success) {
           talk(10);
-          props.handler();
+          //props.handler();
         } else {
           setMessage(data.message);
         }
@@ -68,16 +71,27 @@ const Profile = (props: IProfileProps) => {
   };
 
   const goLogout = () => {
-    setBusy(true);
-    const cookies = new Cookies();
-    setMessage(config.messages[3]);
-    cookies.remove('DefilerAuthKey');
-    setBusy(false);
-    props.handler();
+    if (!token) return;
+    AuthService.Logout(token, {
+      onPending: () => {
+        setBusy(true);
+      },
+      onError: (error: any) => {
+        setBusy(false);
+        setMessage(config.messages[2]);
+        console.log(error);
+      },
+      onResponse: (res: any) => {
+        setMessage(config.messages[3]);
+        setBusy(false);
+        useAppDispatch(logout());
+      },
+    });
   };
 
   // ComponentWillUnmount
   useEffect(() => {
+    console.log('PROFILE TOKEN FROM REDUX: ', token);
     // Get Profile Data
     fetch(config.api('profile'), {
       method: 'POST',
@@ -85,7 +99,7 @@ const Profile = (props: IProfileProps) => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ auth: props.auth }),
+      body: JSON.stringify({ auth: token }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -107,7 +121,7 @@ const Profile = (props: IProfileProps) => {
     return () => config.abort();
   }, []);
 
-  if (!props.auth) return <Navigate to="/login" />;
+  if (!token) return <Navigate to="/login" />;
 
   return (
     <Formik

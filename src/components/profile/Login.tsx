@@ -11,6 +11,8 @@ import { Link } from 'react-router-dom';
 
 import * as config from '../../config';
 import { AuthService, TLoginData } from '../../services/auth.service';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { login, selectToken } from '../../store/slices/authSlice';
 import InputRegion from '../elements/InputRegion';
 
 const formInitialValues = {
@@ -28,10 +30,10 @@ const formSchema = Yup.object().shape({
   rememberMe: Yup.boolean(),
 });
 
-type ILoginProps = { auth: string | null; handler: () => void };
-const Login = (props: ILoginProps) => {
+const Login = () => {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string>(config.messages[1]);
+  const token = useAppSelector(selectToken);
 
   const goLogin = (formValues: TLoginData) => {
     AuthService.Login(formValues, {
@@ -39,10 +41,14 @@ const Login = (props: ILoginProps) => {
         setBusy(true);
         setMessage('...');
       },
-      onSuccess: () => {
+      onSuccess: (resp: any) => {
+        console.log('SUCCESS LOGIN');
         setBusy(false);
         setMessage(config.messages[0]);
-        props.handler();
+        console.log(resp);
+        //
+        useAppDispatch(login(resp.token));
+        //props.handler();
       },
       onInvalid: (response: any) => {
         setBusy(false);
@@ -56,7 +62,7 @@ const Login = (props: ILoginProps) => {
     });
   };
 
-  if (props.auth) return <Navigate to="/logout" />;
+  if (token) return <Navigate to="/logout" />;
 
   return (
     <Formik

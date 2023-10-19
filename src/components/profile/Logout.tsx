@@ -1,43 +1,40 @@
 import { Form, Formik } from 'formik';
 import Cookies from 'universal-cookie';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { Link, Navigate } from 'react-router-dom';
 
 import * as config from '../../config';
+import { AuthService } from '../../services/auth.service';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { logout, selectToken } from '../../store/slices/authSlice';
 
-type ILogoutProps = { auth: string | null; handler: () => void };
-const Logout = (props: ILogoutProps) => {
+const Logout = () => {
+  const token = useAppSelector(selectToken);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string>(config.messages[0]);
 
   const goLogout = () => {
-    setBusy(true);
-    fetch(config.api('logout'), {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+    if (!token) return;
+    AuthService.Logout(token, {
+      onPending: () => {
+        setBusy(true);
       },
-      body: JSON.stringify({ auth: props.auth }),
-    })
-      .then((response) => response.json())
-      .then(() => {
-        const cookies = new Cookies();
-        setMessage(config.messages[3]);
-        cookies.remove('DefilerAuthKey');
-        setBusy(false);
-        props.handler();
-      })
-      .catch((e) => {
+      onError: (error: any) => {
         setBusy(false);
         setMessage(config.messages[2]);
-        console.log(e);
-      });
+        console.log(error);
+      },
+      onResponse: (res: any) => {
+        setMessage(config.messages[3]);
+        setBusy(false);
+        useAppDispatch(logout());
+      },
+    });
   };
 
-  if (!props.auth) return <Navigate to="/login" />;
+  if (!token) return <Navigate to="/login" />;
 
   return (
     <Formik initialValues={{}} onSubmit={goLogout}>
