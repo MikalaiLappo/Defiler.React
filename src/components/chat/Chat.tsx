@@ -16,6 +16,8 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import { TApiCmd } from '../../config';
 import { useFocus } from '../../hooks/useFocus';
 import { useForceUpdate } from '../../hooks/useForceUpdate';
+import { useAppSelector } from '../../store/hooks';
+import { selectToken } from '../../store/slices/authSlice';
 import { IMessageData } from '../../types/chat';
 import { IUser } from '../../types/user';
 import { IDefilerSocketRef } from '../websocket';
@@ -25,9 +27,6 @@ let scrollbarClassFix = true;
 
 type IChatProps = {
   ws: IDefilerSocketRef;
-  auth: string | null;
-  messages: IMessageData[];
-  refreshData: (target: TApiCmd) => void; // TODO: define all target union types
   user: IUser;
   closeToggle: () => void;
   switchToggle: () => void;
@@ -42,13 +41,16 @@ const Chat = (props: IChatProps) => {
   const chosen = useRef(-1);
   const temp = useRef('');
   const [hideList, setHideList] = useState<number[]>([]);
+  const token = useAppSelector(selectToken);
+  // TODO: carry out messages state into Redux
+  const [messages, setMessages] = useState<IMessageData[]>([]);
 
   const chatMessage = () => {
     if (value === '') return;
     if (
       props.ws.current?.send({
         cmd: 'tavern.say',
-        auth: props.auth || undefined,
+        auth: token || undefined,
         text: value,
       })
     ) {
@@ -145,37 +147,6 @@ const Chat = (props: IChatProps) => {
       }
     }
   };
-  const messages =
-    props.messages.length == 0 ? (
-      <Message
-        user={props.user}
-        key={0}
-        message={{
-          name: 'StarCraft:Broodwar',
-          author: 0,
-          text: ':happy:',
-          time: '1998-12-18 00:00:00',
-        }}
-        insertName={insertName}
-        insertPic={insertPic}
-        hideList={hideList}
-        addToHideList={addToHideList}
-      />
-    ) : (
-      props.messages.map((message, index) => (
-        <Message
-          user={props.user}
-          //key={index}
-          key={`${message.text}${index}` /*message.id*/} // TODO: figure out what's the `id` thing
-          message={message}
-          insertName={insertName}
-          insertPic={insertPic}
-          hideList={hideList}
-          addToHideList={addToHideList}
-        />
-      ))
-    );
-
   useEffect(() => {
     if (!props.ws.current) return;
     const ws = props.ws.current;
@@ -185,7 +156,13 @@ const Chat = (props: IChatProps) => {
     });
     ws.addListener('Message', (message) => {
       if (message === 'tavern.msg') {
-        props.refreshData('tavern');
+        // TODO:
+        // ATM a message sent into the chat triggers a "tavern.msg" `code` broadcast
+        // "tavern.msg" triggers a "/{chatEndpoint}/get" HTTP request.
+        // to me it doesn't make much sense, and the websocket server should broadcast a chat message itself rather than a `code`
+        fetch('https://api.defiler.ru/api/v0/tavern/get')
+          .then((r) => r.json())
+          .then((j) => setMessages(j.tavern as any));
         return;
       }
       try {
@@ -216,7 +193,7 @@ const Chat = (props: IChatProps) => {
       setTimeout(updateScrollClass, 100); // fix for the first page loading... (?)
       scrollbarClassFix = false;
     } else updateScrollClass();
-  }, [props.messages]);
+  }, [messages]);
 
   return (
     <div className="chat">
@@ -243,7 +220,35 @@ const Chat = (props: IChatProps) => {
         className="chat-messages"
         options={{ wheelPropagation: false }}
       >
-        {messages}
+        {messages.length == 0 ? (
+          <Message
+            user={props.user}
+            key={0}
+            message={{
+              name: 'StarCraft:Broodwar',
+              author: 0,
+              text: ':happy:',
+              time: '1998-12-18 00:00:00',
+            }}
+            insertName={insertName}
+            insertPic={insertPic}
+            hideList={hideList}
+            addToHideList={addToHideList}
+          />
+        ) : (
+          messages.map((message, index) => (
+            <Message
+              user={props.user}
+              //key={index}
+              key={`${message.text}${index}` /*message.id*/} // TODO: figure out what's the `id` thing
+              message={message}
+              insertName={insertName}
+              insertPic={insertPic}
+              hideList={hideList}
+              addToHideList={addToHideList}
+            />
+          ))
+        )}
       </PerfectScrollbar>
       <div className="chat-footer">
         <input

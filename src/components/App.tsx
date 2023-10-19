@@ -69,7 +69,6 @@ const App = () => {
     // TODO: declare explicit type
     title: 'Defi',
     streams: [],
-    tavern: [],
     r_news: [], // TODO: remove this reps.ru data
     r_reps: [], // the thing is served by current `/attack` endpoint anyway
   }); // TODO: get rid of `any`
@@ -187,10 +186,7 @@ const App = () => {
             <Bunker />
           ) : (
             <Chat
-              auth={auth}
               user={user}
-              messages={data.tavern}
-              refreshData={refreshData}
               ws={defilerSocketRef}
               closeToggle={() => toggle('sidebar')}
               switchToggle={() =>
