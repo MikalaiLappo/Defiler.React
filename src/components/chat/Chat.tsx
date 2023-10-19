@@ -45,6 +45,15 @@ const Chat = (props: IChatProps) => {
   // TODO: carry out messages state into Redux
   const [messages, setMessages] = useState<IMessageData[]>([]);
 
+  const hydrateMessages = () => {
+    // TODO:
+    // ATM a message sent into the chat triggers a "tavern.msg" `code` broadcast
+    // "tavern.msg" triggers a "/{chatEndpoint}/get" HTTP request.
+    // to me it doesn't make much sense, and the websocket server should broadcast a chat message itself rather than a `code`
+    fetch('https://api.defiler.ru/api/v0/tavern/get')
+      .then((r) => r.json())
+      .then((j) => setMessages(j.tavern as any));
+  };
   const chatMessage = () => {
     if (value === '') return;
     if (
@@ -148,6 +157,7 @@ const Chat = (props: IChatProps) => {
     }
   };
   useEffect(() => {
+    hydrateMessages();
     if (!props.ws.current) return;
     const ws = props.ws.current;
     ws.addListener('Pong', (ping, lifetime) => {
@@ -156,13 +166,7 @@ const Chat = (props: IChatProps) => {
     });
     ws.addListener('Message', (message) => {
       if (message === 'tavern.msg') {
-        // TODO:
-        // ATM a message sent into the chat triggers a "tavern.msg" `code` broadcast
-        // "tavern.msg" triggers a "/{chatEndpoint}/get" HTTP request.
-        // to me it doesn't make much sense, and the websocket server should broadcast a chat message itself rather than a `code`
-        fetch('https://api.defiler.ru/api/v0/tavern/get')
-          .then((r) => r.json())
-          .then((j) => setMessages(j.tavern as any));
+        hydrateMessages();
         return;
       }
       try {
