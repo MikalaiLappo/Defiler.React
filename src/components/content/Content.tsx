@@ -8,7 +8,7 @@ const Content = () => {
   return (
     <div className="content">
       <div className="user-actions">
-        {token ? (
+        {!token /* Guest*/ ? (
           <>
             <Link to="/login">
               <button type="button" className="btn form-control">
